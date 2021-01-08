@@ -107,18 +107,21 @@
     $("#save").click(function () {
         var pwd=$("#pwd").val();
         var pwd_confirm=$("#pwd_confirm").val();
+        debugger
         if(pwd!=pwd_confirm){
             alert("输入密码不一致");
             return false;
         }
         $("#save_form").submit();
+        if (pwd != "" || pwd != null){
+            parent.location.href='../'
+        }
     });
-
-    /*$(document).ready(function () {
-        var userId=$("#userId").val();
-        alert(userId);
-        $("#cancel").attr("href","/employee/getMyMsg");
-     });*/
+    // $(document).ready(function () {
+    //     var userId=$("#userId").val();
+    //     alert(userId);
+    //     $("#cancel").attr("href","/employee/getMyMsg");
+    //  });
 </script>
 </body>
 </html>
