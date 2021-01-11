@@ -515,5 +515,10 @@ public class DateUtil {
         List<String> kk = DateUtil.getSomeMonthsAgoDaysNotIncludeNow(1, null);
         kk.forEach(e -> System.out.println(e));
     }*/
+    public static String getDateTime(){
+        Date date = new Date();
+        SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd");
+        return dateFormat.format(date);
+    }
 
 }

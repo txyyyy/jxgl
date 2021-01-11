@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.codejie.pms.mapper.SalaryMapper">
+
+    <select id="getSalaryMsg" resultType="com.codejie.pms.entity.Salary">
+        select * from salary
+    </select>
+    <select id="getSalaryMsgByUserId" parameterType="com.codejie.pms.entity.Salary" resultType="com.codejie.pms.entity.Salary">
+        select s.*,u.userName from salary s,user u where s.userId=#{userId} and s.userId=u.userId
+        <if test="salaryMonth !=null and salaryMonth !=''">
+            and salaryMonth like concat('%',#{salaryMonth},'%')
+        </if>
+        order by salaryMonth desc
+    </select>
+
+</mapper>

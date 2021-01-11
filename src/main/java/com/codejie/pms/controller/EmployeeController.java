@@ -91,7 +91,21 @@ public class EmployeeController {
         userService.updateUserBySelf(user);
         return mv;
     }
-
+    /**
+     * 个人薪资信息
+     */
+    @RequestMapping("/getSalaryPoint")
+    @ResponseBody
+    public PageInfo<Salary> getSalaryPoint(String salaryMonth, String userId,
+                                          @RequestParam(defaultValue = "1") int pageNum,
+                                          @RequestParam(defaultValue = "1") int pageSize) {
+        Salary salary = new Salary();
+        salary.setSalaryMonth(salaryMonth);
+        salary.setUserId(userId);
+        List<Salary> list = employeeService.getSalaryPoint(salary, pageNum, pageSize);
+        PageInfo<Salary> pageInfo = new PageInfo<>(list);
+        return pageInfo;
+    }
     /**
      * Description 个人加分信息
      */
@@ -202,11 +216,20 @@ public class EmployeeController {
         return mv;
     }
 
+    /**
+     * 加班管理
+     * @return
+     */
     @RequestMapping("/overTimeWorkMsg")
     public ModelAndView overTimeWorkList() {
         ModelAndView mv = new ModelAndView("over_time_work");
         return mv;
     }
+
+    /**
+     * 考勤管理
+     * @return
+     */
     @RequestMapping("/checkWorkMsg")
     public ModelAndView checkWorkList() {
         ModelAndView mv = new ModelAndView("check_msg");

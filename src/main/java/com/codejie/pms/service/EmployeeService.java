@@ -6,6 +6,11 @@ import java.util.List;
 public interface EmployeeService {
 
     /**
+     * 个人薪资信息
+     */
+    List<Salary> getSalaryPoint(Salary salary, int pageNum, int pageSize);
+
+    /**
      * Description 个人加分信息
      */
     List<AddPoint> getAddPoint(AddPoint addPoint, int pageNum, int pageSize);

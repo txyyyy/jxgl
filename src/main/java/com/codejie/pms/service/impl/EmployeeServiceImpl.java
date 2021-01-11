@@ -2,6 +2,7 @@ package com.codejie.pms.service.impl;
 
 import com.codejie.pms.entity.*;
 import com.codejie.pms.mapper.EmployeeMapper;
+import com.codejie.pms.mapper.SalaryMapper;
 import com.codejie.pms.service.EmployeeService;
 import com.github.pagehelper.PageHelper;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,15 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Resource
     private EmployeeMapper employeeMapper;
+    @Resource
+    private SalaryMapper salaryMapper;
+
+    @Override
+    public List<Salary> getSalaryPoint(Salary salary, int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum,pageSize);
+        List<Salary> list = salaryMapper.getSalaryMsgByUserId(salary);
+        return list;
+    }
 
     @Override
     public List<AddPoint> getAddPoint(AddPoint addPoint, int pageNum, int pageSize) {
