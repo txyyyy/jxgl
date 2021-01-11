@@ -272,7 +272,12 @@ public class HrController {
         ModelAndView mv = new ModelAndView("/hr/all_add");
         return mv;
     }
-
+//    请假管理
+    @RequestMapping(value = "/all_qingjia")
+    public ModelAndView allQingJia() {
+        ModelAndView mv = new ModelAndView("/hr/all_qingjia");
+        return mv;
+    }
     /**
      * 扣分员工
      */
