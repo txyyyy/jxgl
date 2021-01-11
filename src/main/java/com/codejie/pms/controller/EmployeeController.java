@@ -212,5 +212,14 @@ public class EmployeeController {
         ModelAndView mv = new ModelAndView("check_msg");
         return mv;
     }
-
+    @RequestMapping("/overTimeApprovalMsg")
+    public ModelAndView OvertimeApprovalList() {
+        ModelAndView mv = new ModelAndView("over_time_approval");
+        return mv;
+    }
+    @RequestMapping("/leaveManagementMsg")
+    public ModelAndView LeaveManagementList() {
+        ModelAndView mv = new ModelAndView("leave_management");
+        return mv;
+    }
 }
