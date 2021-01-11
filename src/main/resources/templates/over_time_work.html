@@ -1,10 +1,132 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>我的加班管理</title>
+    <link rel="stylesheet" href="/vendor/simple-line-icons/css/simple-line-icons.css">
+    <link rel="stylesheet" href="/vendor/font-awesome/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-material-design.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <style type="text/css">
+        .table-responsive1 {
+            display: block;
+            width: 100%;
+            height: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            -ms-overflow-style: -ms-autohiding-scrollbar
+        }
+
+        .table-responsive1 > .table-bordered {
+            border: 0
+        }
+        .col-md-6-2 {
+            position: relative;
+            width: 50%;
+            min-height: 1px;
+            padding-right: 15px;
+            padding-left: 15px
+        }
+
+        .col-md-6-2 {
+            -webkit-box-flex: 0;
+            -ms-flex: 0 0 100%;
+            flex: 0 0 100%;
+            max-width: 50%
+        }`
+        .row {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+            margin-right: 15px;
+            margin-left: 15px
+        }
+        .myOverWork {
+            margin-bottom: 2px;
+            height: 0px;
+            line-height: 60px;
+            margin-left: 20px;
+        }
+
+    </style>
 </head>
 <body>
-    这是加班管理页面
+    <input type="hidden" id="userId" name="userId" th:value="${userId}"/>
+    <div class="card">
+        <div class="myOverWork" style="height: 10px">
+            我的加班列表
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong" style="float: right;margin-right: 20px;margin-top: 10px;font-size: 16px">
+                发起加班
+            </button>
+        </div>
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label>请输入加班原因：</label>
+                                <input class="form-control" id="overWorkdesc"  type="text" placeholder="请输入加班原因(简述)" />
+                                <label>请输入加班时长：</label>
+                                <input class="form-control" id="overWorkdesc1" type="text" placeholder="请输入加班时长" />
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-primary"  data-dismiss="modal" id="submitOverWork">提交申请</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-4">
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover" id="table_overwork">
+                    <thead>
+                    <tr>
+                        <th>加班日期</th>
+                        <th>用户ID</th>
+                        <th>姓名</th>
+                        <th>加班原因</th>
+                        <th>是否节假日</th>
+                        <th>加班天数</th>
+                        <th>审核状态</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+                <button type="button" class="btn btn-secondary btn-sm overwork">首页</button>
+                <button type="button" class="btn btn-secondary btn-sm overwork">上一页</button>
+                <button type="button" class="btn btn-secondary btn-sm overwork">下一页</button>
+                <button type="button" class="btn btn-secondary btn-sm overwork">尾页</button>
+            </div>
+        </div>
+    </div>
+<script src="/vendor/jquery/jquery.min.js"></script>
+<script src="/vendor/popper.js/popper.min.js"></script>
+<script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="/vendor/chart.js/chart.min.js"></script>
+<script src="/js/over_time_work.js"></script>
 </body>
 </html>

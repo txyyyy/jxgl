@@ -58,4 +58,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         PageHelper.startPage(pageNum, pageSize);
         return employeeMapper.getDepartmentList(department);
     }
+
+    @Override
+    public List<OverWork> getOverWorkByUserId(OverWork overWork, int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum,pageSize);
+        List<OverWork> list = employeeMapper.getOverWorkByUserId(overWork);
+        return list;
+    }
 }

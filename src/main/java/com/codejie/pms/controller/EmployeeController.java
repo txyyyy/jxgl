@@ -220,9 +220,10 @@ public class EmployeeController {
      * 加班管理
      * @return
      */
-    @RequestMapping("/overTimeWorkMsg")
-    public ModelAndView overTimeWorkList() {
+    @RequestMapping(value="/overTimeWorkMsg",method = RequestMethod.GET)
+    public ModelAndView overTimeWorkList(String userId) {
         ModelAndView mv = new ModelAndView("over_time_work");
+        mv.addObject("userId",userId);
         return mv;
     }
 
@@ -230,14 +231,21 @@ public class EmployeeController {
      * 考勤管理
      * @return
      */
-    @RequestMapping("/checkWorkMsg")
-    public ModelAndView checkWorkList() {
-        ModelAndView mv = new ModelAndView("check_msg");
+    @RequestMapping(value="/myKq",method = RequestMethod.GET)
+    public ModelAndView myKq(String userId) {
+        ModelAndView mv = new ModelAndView("my_kq");
+        mv.addObject("userId",userId);
         return mv;
     }
-    @RequestMapping("/overTimeApprovalMsg")
-    public ModelAndView OvertimeApprovalList() {
-        ModelAndView mv = new ModelAndView("over_time_approval");
+
+    /**
+     * 请假管理
+     * @return
+     */
+    @RequestMapping(value="/myQj",method = RequestMethod.GET)
+    public ModelAndView myQj(String userId) {
+        ModelAndView mv = new ModelAndView("my_qj");
+        mv.addObject("userId",userId);
         return mv;
     }
     @RequestMapping("/leaveManagementMsg")
@@ -245,4 +253,20 @@ public class EmployeeController {
         ModelAndView mv = new ModelAndView("leave_management");
         return mv;
     }
+
+    /**
+     * Description 我的加班信息
+     */
+    @RequestMapping("/getOverWorkMsg")
+    @ResponseBody
+    public PageInfo<OverWork> getOverWorkMsg(String userId,
+                                           @RequestParam(defaultValue = "1") int pageNum,
+                                           @RequestParam(defaultValue = "15") int pageSize) {
+        OverWork overWork = new OverWork();
+        overWork.setUserId(userId);
+        List<OverWork> list = employeeService.getOverWorkByUserId(overWork, pageNum, pageSize);
+        PageInfo<OverWork> pageInfo = new PageInfo<>(list);
+        return pageInfo;
+    }
+
 }

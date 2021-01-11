@@ -77,5 +77,8 @@
     <select id="getUserExcellentKpi" parameterType="com.codejie.pms.entity.UserExcellentKpi" resultType="com.codejie.pms.entity.UserExcellentKpi">
         select * from user_kpi
     </select>
+    <select id="getOverWorkByUserId" parameterType="com.codejie.pms.entity.OverWork" resultType="com.codejie.pms.entity.OverWork">
+        select * from overwork where userId = #{userId} order by workDay
+    </select>
 
 </mapper>

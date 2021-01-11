@@ -378,8 +378,17 @@ function isOne(data) {
 $("#search_salary").click(function () {
     salaryPoint();
 });
+$("#salary_cancel").click(function () {
+    $("#salaryMonth").val("");
+    salaryPoint();
+});
 
 $("#search_add").click(function () {
+    addPoint();
+});
+
+$("#add_cancel").click(function () {
+    $("#addDesc").val("");
     addPoint();
 });
 
@@ -387,10 +396,25 @@ $("#search_del").click(function () {
     delPoint();
 });
 
+$("#del_cancel").click(function () {
+    $("#deleteDesc").val("");
+    delPoint();
+});
+
 $("#search_reward").click(function () {
+    jlXx();
+});
+
+$("#jl_cancel").click(function () {
+    $("#rewardReason").val("");
     jlXx();
 });
 
 $("#search_punish").click(function () {
     cfXx();
 });
+
+// $("#punlish_cancel").click(function () {
+//     $("#punishReason").val("");
+//     cfXx();
+// });

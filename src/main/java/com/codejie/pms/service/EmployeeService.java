@@ -40,4 +40,8 @@ public interface EmployeeService {
      */
     List<Department> getDepartmentList(Department department, int pageNum, int pageSize);
 
+    /**
+     * Description 个人加班信息
+     */
+    List<OverWork> getOverWorkByUserId(OverWork overWork,int pageNum,int pageSize);
 }

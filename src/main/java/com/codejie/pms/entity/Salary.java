@@ -4,14 +4,23 @@ import java.math.BigDecimal;
 
 public class Salary {
     private int salaryId;
+
     private String userId;
+
     private String userName;
+
     private BigDecimal totalPay;
+
     private BigDecimal finalPay;
+
     private int lateCount;
+
     private BigDecimal lateCutPay;
+
     private int overTimeCount;
+
     private BigDecimal overTimePay;
+
     private String salaryMonth;
 
     public Salary() {

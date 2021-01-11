@@ -521,4 +521,12 @@ public class DateUtil {
         return dateFormat.format(date);
     }
 
+    public static String getDateMonth(){
+        Date date = new Date();
+        SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd");
+        String newDate = dateFormat.format(date).substring(0,7);
+        return newDate;
+    }
+
+
 }

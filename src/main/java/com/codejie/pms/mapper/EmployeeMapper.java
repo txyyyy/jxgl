@@ -43,4 +43,8 @@ public interface EmployeeMapper {
      */
     List<UserExcellentKpi> getUserExcellentKpi(UserExcellentKpi userExcellentKpi);
 
+    /**
+     * 查看用户的加班信息
+     */
+    List<OverWork> getOverWorkByUserId(OverWork overWork);
 }

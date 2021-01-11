@@ -8,6 +8,9 @@ $(document).ready(function () {
             $("#myMsg").text(data.userName);
             $("#my_msg").attr("href","/employee/getMyMsg?userId="+data.userId);
             $("#myKp").attr("href","/employee/myKp?userId="+data.userId);
+            $("#my_overwork").attr("href","/employee/overTimeWorkMsg?userId="+data.userId);
+            $("#my_kaoqin").attr("href","/employee/myKq?userId="+data.userId);
+            $("#my_qingjia").attr("href","/employee/myQj?userId="+data.userId);
             $("#iframe").attr("src","/employee/getMyMsg?userId="+data.userId);
         },
     });
