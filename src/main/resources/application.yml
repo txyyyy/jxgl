@@ -1,5 +1,7 @@
 #开发配置
 spring:
+  resources:
+    static-locations: classpath:/
   thymeleaf:
     cache:  false
   #数据源配置

@@ -73,7 +73,6 @@
     @page {
         size: a3
     }
-
     .container, body {
         min-width: 992px !important
     }
