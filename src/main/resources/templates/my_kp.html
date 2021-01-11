@@ -55,6 +55,50 @@
 <!--        <div class="content">-->
             <!--<div class="row">-->
                 <!--<div class="col-md-6">-->
+<div class="card">
+    <div class="card-header bg-light">
+        我的薪资信息
+    </div>
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="form-group">
+
+                <input id="salaryMonth" name="salaryMonth" class="form-control" type="month" placeholder="选择月份">
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <button class="btn btn-rounded btn-primary" id="search_salary">搜索</button>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover" id="table_salary">
+                <thead>
+                <tr>
+                    <th>月份</th>
+                    <th>用户ID</th>
+                    <th>姓名</th>
+                    <th>应发工资</th>
+                    <th>迟到次数</th>
+                    <th>迟到扣款</th>
+                    <th>加班次数</th>
+                    <th>加班金额</th>
+                    <th>实发工资</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+            <button type="button" class="btn btn-secondary btn-sm salary">首页</button>
+            <button type="button" class="btn btn-secondary btn-sm salary">上个月</button>
+            <button type="button" class="btn btn-secondary btn-sm salary">下个月</button>
+            <button type="button" class="btn btn-secondary btn-sm salary">尾页</button>
+        </div>
+             </div>
+            </div>
                     <div class="card">
                         <div class="card-header bg-light">
                             我的加分信息
@@ -87,8 +131,8 @@
                                     </tbody>
                                 </table>
                                 <button type="button" class="btn btn-secondary btn-sm add">首页</button>
-                                <button type="button" class="btn btn-secondary btn-sm add">上一页</button>
-                                <button type="button" class="btn btn-secondary btn-sm add">下一页</button>
+                                <button type="button" class="btn btn-secondary btn-sm add">下个月</button>
+                                <button type="button" class="btn btn-secondary btn-sm add">上个月</button>
                                 <button type="button" class="btn btn-secondary btn-sm add">尾页</button>
                             </div>
                         </div>

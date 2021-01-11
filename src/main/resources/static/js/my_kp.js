@@ -1,3 +1,4 @@
+var salary_pageNum = 1, salary_pageSize = 1, salary_pages = 0;
 var add_pageNum = 1, pageSize = 5, add_pages = 0;
 var del_pageNum = 1, del_pages = 0;
 var jl_pageNum = 1, jl_pages = 0;
@@ -14,12 +15,86 @@ $(document).ready(function () {
 function init() {
     addPoint();
     delPoint();
+    salaryPoint();
     jlXx();
     //cfXx();
 }
 
 //****************************************************************************************************
+/**
+ * 薪资信息
+ */
+function salaryPoint() {
+    $.ajax({
+        url: "/employee/getSalaryPoint",     //后台请求的数据
+        data: {
+            "pageSize": salary_pageSize,
+            "pageNum": salary_pageNum,
+            "salaryMonth":$("#salaryMonth").val(),
+            "userId":userId
+        },
+        type: "post",                  //请求方式
+        async: true,                   //是否异步请求
+        success: function (data) {      //如果请求成功，返回数据。
+            $("#table_salary tbody").html("");
+            salary_pages = data.pages;
+            var list_ = data.list;
+            for (var i = 1; i < list_.length+1; i++) {
+                var content = list_[i - 1];
+                var trHTML = "<tr>"
+                    + "<td>" + content.salaryMonth + "</td>"
+                    + "<td>" + content.userId + "</td>"
+                    +"<td>" + content.userName + "</td>"
+                    + "<td>" + content.totalPay + "</td>"
+                    +"<td>" + content.lateCount + "</td>"
+                    +"<td>" + content.lateCutPay + "</td>"
+                    +"<td>" + content.overTimeCount + "</td>"
+                    +"<td>" + content.overTimePay + "</td>"
+                    +"<td>" + content.finalPay + "</td>"
+                    +"</tr>";
+                $("#table_salary tbody").append(trHTML);//在table最后面添加一行
+            }
+        },
+    });
+}
+/**
+ * 薪资信息表翻页
+ */
+$(".salary").click(function () {
+    var data = $(this).html();
+    switch (data) {
+        case "首页":
+            if (salary_pageNum == 1) {
+                break;
+            }
+            salary_pageNum = 1;
+            salaryPoint();
+            break;
+        case "下个月":
+            if (salary_pageNum == 1) {
+                break;
+            }
+            salary_pageNum--;
+            salaryPoint();
+            break;
+        case "上个月":
+            if (salary_pageNum == salary_pages) {
+                break;
+            }
+            salary_pageNum++;
+            salaryPoint();
+            break;
+        case "尾页":
+            if (salary_pageNum == salary_pages) {
+                break;
+            }
+            salary_pageNum = salary_pages;
+            salaryPoint();
+            break;
+    }
+});
 
+//****************************************************************************************************
 /**
  * 加分信息
  */
@@ -300,6 +375,9 @@ function isOne(data) {
         return "未完成";
     }
 }
+$("#search_salary").click(function () {
+    salaryPoint();
+});
 
 $("#search_add").click(function () {
     addPoint();
