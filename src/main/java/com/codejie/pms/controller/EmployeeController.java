@@ -202,4 +202,15 @@ public class EmployeeController {
         return mv;
     }
 
+    @RequestMapping("/overTimeWorkMsg")
+    public ModelAndView overTimeWorkList() {
+        ModelAndView mv = new ModelAndView("over_time_work");
+        return mv;
+    }
+    @RequestMapping("/checkWorkMsg")
+    public ModelAndView checkWorkList() {
+        ModelAndView mv = new ModelAndView("check_msg");
+        return mv;
+    }
+
 }
