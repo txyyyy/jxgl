@@ -3,6 +3,9 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.codejie.pms.mapper.EmployeeMapper">
+    <insert id="insertOverWork">
+        insert into overwork(userId,departmentId,workDay,userName,workDesc,isRestDay,workTime) values(#{userId},#{departmentId},#{workDay},#{userName},#{workDesc},#{isRestDay},#{workTime})
+    </insert>
 
     <select id="getAddPoint" parameterType="com.codejie.pms.entity.AddPoint" resultType="com.codejie.pms.entity.AddPoint">
         select addId,userId,userName,addDesc,addPoint,addTime
@@ -78,7 +81,11 @@
         select * from user_kpi
     </select>
     <select id="getOverWorkByUserId" parameterType="com.codejie.pms.entity.OverWork" resultType="com.codejie.pms.entity.OverWork">
-        select * from overwork where userId = #{userId} order by workDay
+        select * from overwork where userId = #{userId} order by workDay desc
     </select>
+    <select id="selectUserInfo" resultType="com.codejie.pms.entity.User">
+        select * from user where userId=#{userId}
+    </select>
+
 
 </mapper>

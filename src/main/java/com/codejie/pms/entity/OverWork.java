@@ -8,12 +8,13 @@ public class OverWork {
     private String workDesc;
     private String isRestDay;
     private String workTime;
-    private String status;
+    private String departmentId;
+    private int status;
 
     public OverWork() {
     }
 
-    public OverWork(int overworkId, String userId, String workDay, String userName, String workDesc, String isRestDay, String workTime, String status) {
+    public OverWork(int overworkId, String userId, String workDay, String userName, String workDesc, String isRestDay, String workTime, String departmentId, int status) {
         this.overworkId = overworkId;
         this.userId = userId;
         this.workDay = workDay;
@@ -21,6 +22,7 @@ public class OverWork {
         this.workDesc = workDesc;
         this.isRestDay = isRestDay;
         this.workTime = workTime;
+        this.departmentId = departmentId;
         this.status = status;
     }
 
@@ -80,12 +82,20 @@ public class OverWork {
         this.workTime = workTime;
     }
 
-    public String getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(int status) {
         this.status = status;
+    }
+
+    public String getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(String departmentId) {
+        this.departmentId = departmentId;
     }
 
     @Override
@@ -98,7 +108,8 @@ public class OverWork {
                 ", workDesc='" + workDesc + '\'' +
                 ", isRestDay='" + isRestDay + '\'' +
                 ", workTime='" + workTime + '\'' +
-                ", status='" + status + '\'' +
+                ", departmentId='" + departmentId + '\'' +
+                ", status=" + status +
                 '}';
     }
 }

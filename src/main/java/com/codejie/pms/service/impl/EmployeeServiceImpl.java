@@ -65,4 +65,13 @@ public class EmployeeServiceImpl implements EmployeeService {
         List<OverWork> list = employeeMapper.getOverWorkByUserId(overWork);
         return list;
     }
+
+    @Override
+    public int insertOverWork(OverWork overWork) {
+        String userId = overWork.getUserId();
+        User user = employeeMapper.selectUserInfo(userId);
+        overWork.setUserName(user.getUserName());
+        overWork.setDepartmentId(user.getDepartmentId());
+        return employeeMapper.insertOverWork(overWork);
+    }
 }

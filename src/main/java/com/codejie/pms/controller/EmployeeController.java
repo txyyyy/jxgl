@@ -268,5 +268,12 @@ public class EmployeeController {
         PageInfo<OverWork> pageInfo = new PageInfo<>(list);
         return pageInfo;
     }
+    /**
+     * 添加加班信息
+     */
+    @RequestMapping("/insertOverWork")
+    public int insertOverWork(OverWork overWork) {
+        return employeeService.insertOverWork(overWork);
+    }
 
 }

@@ -47,4 +47,14 @@ public interface EmployeeMapper {
      * 查看用户的加班信息
      */
     List<OverWork> getOverWorkByUserId(OverWork overWork);
+
+    /**
+     * 添加加班申请
+     */
+    int insertOverWork(OverWork overWork);
+
+    /**
+     * 根据用户Id查询用户信息
+     */
+    User selectUserInfo(String userId);
 }

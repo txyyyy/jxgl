@@ -10,8 +10,34 @@ function init() {
     overworkMsg();
 }
 $("#submitOverWork").click(function () {
-var overWorkdesc = $("#overWorkdesc").val()
-    console.log(overWorkdesc)
+    var overWorkdesc = $("#overWorkdesc").val();
+    var workDay = $("#workDay").val();
+    var workTime = $("input[name='workTime']:checked").val();
+    var isRestDay = $("input[name='isRestDay']:checked").val();
+    $.ajax({
+        url: "/employee/insertOverWork",     //后台请求的数据
+        data: {
+            "userId": userId,
+            "workDesc": overWorkdesc,
+            "workDay": workDay,
+            "workTime": workTime,
+            "isRestDay": isRestDay
+        },
+        type: "post",                  //请求方式
+        async: true,                   //是否异步请求
+        success: function (data) {      //如果请求成功，返回数据。
+            $("#overWorkdesc").val("");
+            $("#workDay").val("");
+            $("input[type='radio']").removeAttr('checked')
+            alert("发起加班申请成功！");
+            overworkMsg();
+        },
+        error:function () {
+            alert("发起加班失败！");
+        }
+
+    });
+
 })
 function overworkMsg() {
     $.ajax({
@@ -29,14 +55,24 @@ function overworkMsg() {
             var list_ = data.list;
             for (var i = 1; i < list_.length+1; i++) {
                 var content = list_[i - 1];
+                var newWorkDay=content.workDay.substr(0,10);
+                var status ="";
+                if(content.status == 1){
+                    status="<span style='color:green'>已通过</span>";
+                }else if(content.status==0){
+                    status="<span style='color:darkorange'>待审核</span>";
+                }else{
+                    status="<span style='color:red'>未通过</span>";
+                }
+
                 var trHTML = "<tr>"
-                    + "<td>" + content.workDay + "</td>"
+                    + "<td>" + newWorkDay + "</td>"
                     + "<td>" + content.userId + "</td>"
                     +"<td>" + content.userName + "</td>"
                     + "<td>" + content.workDesc + "</td>"
                     +"<td>" + content.isRestDay + "</td>"
-                    +"<td>" + content.workTime + "</td>"
-                    +"<td>" + content.status + "</td>"
+                    +"<td>" + content.workTime+"天" + "</td>"
+                    +"<td>" + status + "</td>"
                     +"</tr>";
                 $("#table_overwork tbody").append(trHTML);//在table最后面添加一行
             }

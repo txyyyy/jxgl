@@ -44,4 +44,8 @@ public interface EmployeeService {
      * Description 个人加班信息
      */
     List<OverWork> getOverWorkByUserId(OverWork overWork,int pageNum,int pageSize);
+    /**
+     * 添加加班信息
+     */
+    int insertOverWork(OverWork overWork);
 }

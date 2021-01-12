@@ -72,7 +72,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                        <h5 class="modal-title" id="exampleModalLongTitle">加班申请</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -80,15 +80,21 @@
                     <div class="modal-body">
                         <form>
                             <div class="form-group">
-                                <label>请输入加班原因：</label>
-                                <input class="form-control" id="overWorkdesc"  type="text" placeholder="请输入加班原因(简述)" />
-                                <label>请输入加班时长：</label>
-                                <input class="form-control" id="overWorkdesc1" type="text" placeholder="请输入加班时长" />
+                                <label>*请选择加班时间：</label><br>
+                                <input id="workDay" type="date"><br>
+                                <label style="display: inline-block;margin-top: 10px">*请选择加班时长：</label><br>
+                                0.5天<input type="radio" name="workTime" aria-label="Radio button for following text input" value="0.5">
+                                1天<input type="radio" name="workTime" aria-label="Radio button for following text input" value="1"><br>
+                                <label style="display: inline-block;margin-top: 10px">*是否节假日：</label><br>
+                                是<input id="radio3" type="radio" name="isRestDay" aria-label="Radio button for following text input" value="是">
+                                否<input id="radio4" type="radio" name="isRestDay" aria-label="Radio button for following text input" value="否"><br>
+                                <label style="display: inline-block;margin-top: 10px">*请输入加班原因：</label>
+                                <input class="form-control" id="overWorkdesc"  type="text" placeholder="请输入加班原因"/>
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cancelSubmit">取消</button>
                         <button type="button" class="btn btn-primary"  data-dismiss="modal" id="submitOverWork">提交申请</button>
                     </div>
                 </div>
