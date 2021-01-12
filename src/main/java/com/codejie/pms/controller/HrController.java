@@ -385,8 +385,58 @@ public class HrController {
     }
 
 
+    /**
+     * 获取部门所有请假申请
+     */
+    @RequestMapping("/getEmployeeLeaveByDepartment")
+    @ResponseBody
+    public PageInfo<EmployLeave> getEmployeeLeave(String userId,
+                                                  @RequestParam(defaultValue = "1") int pageNum,
+                                                  @RequestParam(defaultValue = "10") int pageSize) {
 
+        List<EmployLeave> list = hrService.selectDepartmentLeave(userId,pageNum,pageSize);
+        PageInfo<EmployLeave> pageInfo = new PageInfo<>(list);
+        return pageInfo;
+    }
+    /**
+     * 获取部门所有加班申请
+     */
+    @RequestMapping("/getOverWorkByDepartment")
+    @ResponseBody
+    public PageInfo<OverWork> getOverWorkByDepartment(String userId,
+                                                  @RequestParam(defaultValue = "1") int pageNum,
+                                                  @RequestParam(defaultValue = "10") int pageSize) {
 
+        List<OverWork> list = hrService.selectDepartmentOverWork(userId,pageNum,pageSize);
+        PageInfo<OverWork> pageInfo = new PageInfo<>(list);
+        return pageInfo;
+    }
+    /**
+     * 获取部门所有待审核加班申请
+     */
+    @RequestMapping("/getWaitOverWorkByDepartment")
+    @ResponseBody
+    public PageInfo<OverWork> getWaitOverWorkByDepartment(String userId,
+                                                        @RequestParam(defaultValue = "1") int pageNum,
+                                                        @RequestParam(defaultValue = "10") int pageSize) {
+        List<OverWork> list = hrService.selectWaitDepartmentOverWork(userId,pageNum,pageSize);
+        PageInfo<OverWork> pageInfo = new PageInfo<>(list);
+        return pageInfo;
+    }
+    /**
+     * 获取部门所有待审核的请假申请
+     */
+    @RequestMapping("/getWaitEmployeeLeaveByDepartment")
+    @ResponseBody
+    public PageInfo<EmployLeave> getWaitEmployeeLeaveByDepartment(String userId,
+                                                  @RequestParam(defaultValue = "1") int pageNum,
+                                                  @RequestParam(defaultValue = "10") int pageSize) {
 
-
+        List<EmployLeave> list = hrService.selectWaitDepartmentLeave(userId,pageNum,pageSize);
+        PageInfo<EmployLeave> pageInfo = new PageInfo<>(list);
+        return pageInfo;
+    }
+    /**
+     * 查看本部门的考勤信息
+     */
 }

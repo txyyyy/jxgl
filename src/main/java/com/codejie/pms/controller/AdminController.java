@@ -785,6 +785,59 @@ public class AdminController {
         return mv;
     }
 
+    /**
+     * 获取所有加班申请
+     */
+    @RequestMapping("/getAllOverWork")
+    @ResponseBody
+    public PageInfo<OverWork> getAllOverWork(
+                                                      @RequestParam(defaultValue = "1") int pageNum,
+                                                      @RequestParam(defaultValue = "10") int pageSize) {
 
+        List<OverWork> list = adminService.selectAllOverWork(pageNum,pageSize);
+        PageInfo<OverWork> pageInfo = new PageInfo<>(list);
+        return pageInfo;
+    }
+    /**
+     * 获取所有请假申请
+     */
+    @RequestMapping("/getAllLeave")
+    @ResponseBody
+    public PageInfo<EmployLeave> getAllLeave(
+            @RequestParam(defaultValue = "1") int pageNum,
+            @RequestParam(defaultValue = "10") int pageSize) {
 
+        List<EmployLeave> list = adminService.selectAllEmployLeave(pageNum,pageSize);
+        PageInfo<EmployLeave> pageInfo = new PageInfo<>(list);
+        return pageInfo;
+    }
+    /**
+     * 获取所有待审核加班申请
+     */
+    @RequestMapping("/getAllWaitOverWork")
+    @ResponseBody
+    public PageInfo<OverWork> getAllWaitOverWork(
+            @RequestParam(defaultValue = "1") int pageNum,
+            @RequestParam(defaultValue = "10") int pageSize) {
+
+        List<OverWork> list = adminService.selectWaitOverWork(pageNum,pageSize);
+        PageInfo<OverWork> pageInfo = new PageInfo<>(list);
+        return pageInfo;
+    }
+    /**
+     * 获取所有待审核请假申请
+     */
+    @RequestMapping("/getAllWaitLeave")
+    @ResponseBody
+    public PageInfo<EmployLeave> getAllWaitLeave(
+            @RequestParam(defaultValue = "1") int pageNum,
+            @RequestParam(defaultValue = "10") int pageSize) {
+
+        List<EmployLeave> list = adminService.selectWaitEmployLeave(pageNum,pageSize);
+        PageInfo<EmployLeave> pageInfo = new PageInfo<>(list);
+        return pageInfo;
+    }
+    /**
+     * 查看所有考勤信息
+     */
 }

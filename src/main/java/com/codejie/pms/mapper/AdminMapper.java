@@ -116,4 +116,25 @@ public interface AdminMapper {
 
     void kpAdd13(AddPointDepartment addPointDepartment);
     void addPoint13(AddPointDepartment addPointDepartment);
+
+    /**
+     * 分页查看所有请假信息(管理员)
+     */
+    List<EmployLeave> selectAllEmployLeave();
+    /**
+     * 分页查看所有加班信息(管理员)
+     */
+    List<OverWork> selectAllOverWork();
+    /**
+     * 分页查看待审核请假信息(管理员)
+     */
+    List<EmployLeave> selectWaitEmployLeave();
+    /**
+     * 分页查看待审核加班信息（管理员）
+     */
+    List<OverWork> selectWaitOverWork();
+    /**
+     * 查看所有考勤记录
+     */
+    List<CheckInfo> selectAllCheck();
 }

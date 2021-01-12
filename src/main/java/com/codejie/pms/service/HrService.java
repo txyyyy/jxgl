@@ -40,5 +40,26 @@ public interface HrService {
 
 
     List<WeakCheck> allCheck();
+    /**
+     * 分页查看待审核请假信息（主任-本部门）
+     */
+    List<EmployLeave> selectWaitDepartmentLeave(String userId, int pageNum, int pageSize);
 
+    /**
+     * 分页查看待审核加班信息（主任-本部门）
+     */
+    List<OverWork> selectWaitDepartmentOverWork(String userId, int pageNum, int pageSize);
+
+    /**
+     * 分页查看本部门所有请假申请信息
+     */
+    List<EmployLeave> selectDepartmentLeave(String userId, int pageNum, int pageSize);
+    /**
+     * 分页查看本部门所有加班申请信息
+     */
+    List<OverWork> selectDepartmentOverWork(String userId, int pageNum, int pageSize);
+    /**
+     * 分页查看本部门考勤记录
+     */
+    List<CheckInfo> selectDepartmentCheck(String userId, int pageNum, int pageSize);
 }

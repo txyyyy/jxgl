@@ -46,5 +46,26 @@ public interface HrMapper {
 
     List<WeakCheck> allCheck();
 
+    /**
+     * 分页查看待审核请假信息（主任-本部门）
+     */
+    List<EmployLeave> selectWaitDepartmentLeave(EmployLeave employLeave);
+
+    /**
+     * 分页查看待审核加班信息（主任-本部门）
+     */
+    List<OverWork> selectWaitDepartmentOverWork(OverWork overWork);
+    /**
+     * 分页查看本部门所有请假申请信息
+     */
+    List<EmployLeave> selectDepartmentLeave(EmployLeave employLeave);
+    /**
+     * 分页查看本部门所有加班申请信息
+     */
+    List<OverWork> selectDepartmentOverWork(OverWork overWork);
+    /**
+     * 分页查看本部门考勤记录
+     */
+    List<CheckInfo> selectDepartmentCheck(CheckInfo checkInfo);
 
 }

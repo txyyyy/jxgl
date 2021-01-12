@@ -307,4 +307,34 @@ public class AdminServiceImpl implements AdminService {
         adminMapper.addPoint13(addPointDepartment);
         adminMapper.kpAdd13(addPointDepartment);
     }
+
+    @Override
+    public List<EmployLeave> selectAllEmployLeave(int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        return adminMapper.selectAllEmployLeave();
+    }
+
+    @Override
+    public List<OverWork> selectAllOverWork(int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        return adminMapper.selectAllOverWork();
+    }
+
+    @Override
+    public List<EmployLeave> selectWaitEmployLeave(int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        return adminMapper.selectWaitEmployLeave();
+    }
+
+    @Override
+    public List<OverWork> selectWaitOverWork(int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        return adminMapper.selectWaitOverWork();
+    }
+
+    @Override
+    public List<CheckInfo> selectAllCheck(int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        return adminMapper.selectAllCheck();
+    }
 }

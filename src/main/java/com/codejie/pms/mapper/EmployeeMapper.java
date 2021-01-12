@@ -1,6 +1,8 @@
 package com.codejie.pms.mapper;
 
 import com.codejie.pms.entity.*;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 /**
@@ -57,4 +59,42 @@ public interface EmployeeMapper {
      * 根据用户Id查询用户信息
      */
     User selectUserInfo(String userId);
+
+    /**
+     * 查看用户的请假信息
+     */
+    List<EmployLeave> getEmployLeaveByUserId(EmployLeave employLeave);
+    /**
+     * 添加请假申请
+     */
+    int insertEmployLeave(EmployLeave employLeave);
+
+    /**
+     * 修改请假状态
+     */
+    int updateLeaveStatus(EmployLeave employLeave);
+    /**
+     * 修改加班状态
+     */
+    int updateOverWorkStatus(OverWork overWork);
+    /**
+     * 员工签到
+     */
+    int signIn(CheckInfo checkInfo);
+    /**
+     * 员工签退
+     */
+    int signOut(CheckInfo checkInfo);
+    /**
+     * 查看个人考勤记录
+     */
+    List<CheckInfo> selectCheck(@Param("userId")String userId,@Param("thisDay")String thisDay);
+
+    /**
+     * 查看当天考勤信息是否打卡
+     */
+    CheckInfo checkSign(CheckInfo checkInfo);
+
+
+
 }

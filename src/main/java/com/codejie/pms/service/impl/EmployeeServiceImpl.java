@@ -4,7 +4,9 @@ import com.codejie.pms.entity.*;
 import com.codejie.pms.mapper.EmployeeMapper;
 import com.codejie.pms.mapper.SalaryMapper;
 import com.codejie.pms.service.EmployeeService;
+import com.codejie.pms.util.DateUtil;
 import com.github.pagehelper.PageHelper;
+import com.sun.tools.javac.comp.Check;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.List;
@@ -73,5 +75,76 @@ public class EmployeeServiceImpl implements EmployeeService {
         overWork.setUserName(user.getUserName());
         overWork.setDepartmentId(user.getDepartmentId());
         return employeeMapper.insertOverWork(overWork);
+    }
+
+    @Override
+    public List<EmployLeave> getEmployLeaveByUserId(EmployLeave employLeave, int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum,pageSize);
+        return employeeMapper.getEmployLeaveByUserId(employLeave);
+    }
+
+    @Override
+    public int insertEmployLeave(EmployLeave employLeave) {
+        return employeeMapper.insertEmployLeave(employLeave);
+    }
+
+    @Override
+    public int updateLeaveStatus(EmployLeave employLeave) {
+        return employeeMapper.updateLeaveStatus(employLeave);
+    }
+
+    @Override
+    public int updateOverWorkStatus(OverWork overWork) {
+        return employeeMapper.updateOverWorkStatus(overWork);
+    }
+
+    @Override
+    public int signIn(CheckInfo checkInfo) {
+        User user = employeeMapper.selectUserInfo(checkInfo.getUserId());
+        checkInfo.setUserName(user.getUserName());
+        return employeeMapper.signIn(checkInfo);
+    }
+
+    @Override
+    public int signOut(CheckInfo checkInfo) {
+        return employeeMapper.signOut(checkInfo);
+    }
+
+    @Override
+    public List<CheckInfo> selectCheck(CheckInfo checkInfo, int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum,pageSize);
+        String thisDay=DateUtil.getDateTime().substring(0,10);
+        String userId=checkInfo.getUserId();
+        return  employeeMapper.selectCheck(userId,thisDay);
+
+
+    }
+
+    @Override
+    public int checkSignIn(String userId) {
+        String signDate = DateUtil.getDateTime().substring(0,10);
+        CheckInfo checkInfo = new CheckInfo();
+        checkInfo.setSignDate(signDate);
+        checkInfo.setUserId(userId);
+        CheckInfo result =employeeMapper.checkSign(checkInfo);
+        if(result!=null){
+            return result.getSignInStatus();
+        }else {
+            return 0;
+        }
+    }
+
+    @Override
+    public int checkSignOut(String userId) {
+        String signDate = DateUtil.getDateTime().substring(0,10);
+        CheckInfo checkInfo = new CheckInfo();
+        checkInfo.setSignDate(signDate);
+        checkInfo.setUserId(userId);
+        CheckInfo result =employeeMapper.checkSign(checkInfo);
+        if(result!=null){
+            return result.getSignOutStatus();
+        }else {
+            return 0;
+        }
     }
 }

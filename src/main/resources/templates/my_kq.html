@@ -1,10 +1,113 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>我的请假管理</title>
+    <link rel="stylesheet" href="/vendor/simple-line-icons/css/simple-line-icons.css">
+    <link rel="stylesheet" href="/vendor/font-awesome/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-material-design.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <style type="text/css">
+        .table-responsive1 {
+            display: block;
+            width: 100%;
+            height: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            -ms-overflow-style: -ms-autohiding-scrollbar
+        }
+
+        .table-responsive1 > .table-bordered {
+            border: 0
+        }
+        .col-md-6-2 {
+            position: relative;
+            width: 50%;
+            min-height: 1px;
+            padding-right: 15px;
+            padding-left: 15px
+        }
+
+        .col-md-6-2 {
+            -webkit-box-flex: 0;
+            -ms-flex: 0 0 100%;
+            flex: 0 0 100%;
+            max-width: 50%
+        }
+        .row {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+            margin-right: 15px;
+            margin-left: 15px
+        }
+        .myOverWork {
+            margin-bottom: 2px;
+            height: 0px;
+            line-height: 60px;
+            margin-left: 20px;
+        }
+
+    </style>
 </head>
 <body>
-这是考勤管理
+
+<input type="hidden" id="userId" name="userId" th:value="${userId}"/>
+<div class="jumbotron">
+    <h1>员工考勤签到</h1>
+    <p class="lead">当前时间:&nbsp;&nbsp;<span id="thisTime">----年--月--日 --:--:--</span></p>
+    <hr class="my-4">
+    <p>&nbsp;&nbsp;&nbsp;注:&nbsp;上班打卡时间07:00-08:30 &nbsp;&nbsp;&nbsp;&nbsp;下班打卡时间17:30-21:00</p>
+    <p class="lead">
+        <span id="signInStatus" class="badge badge-danger">未打卡</span>
+        <span id="isLate" class="badge badge-warning" style="display: none">迟到</span>
+        <span id="signIn" class="btn btn-primary btn-lg" href="#" role="button" style="margin-left: 2%">上班打卡</span>
+        <span id="signOutStatus" class="badge badge-danger">未打卡</span>
+        <span id="isBefore" class="badge badge-warning" style="display: none;color: lightslategrey">早退</span>
+        <span id="signOut" class="btn btn-primary btn-lg" href="#" role="button" style="margin-left: 2%">下班打卡</span>
+    </p>
+</div>
+<div class="card">
+    <div class="myCheckInfo" style="height: 10px">
+        <span style="margin-top: 10px;margin-left: 10px;font-size: 15px;text-align: center;line-height: 30px;">我的考勤记录</span>
+        <span style="float: right;margin-right: 80px;font-size: 18px;margin-top: 5px">姓名:&nbsp;<span id ="userName">----</span>&nbsp;&nbsp;&nbsp;所在部门:&nbsp;<span id ="department">----</span></span>
+    </div>
+    <div class="row mt-4">
+        <div class="col-md-4">
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover" id="table_checkInfo">
+                <thead>
+                <tr>
+                    <th>日期</th>
+                    <th>签到时间</th>
+                    <th>签到状态</th>
+                    <th>签退时间</th>
+                    <th>签退状态</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+            <button type="button" class="btn btn-secondary btn-sm checkInfo">首页</button>
+            <button type="button" class="btn btn-secondary btn-sm checkInfo">上一页</button>
+            <button type="button" class="btn btn-secondary btn-sm checkInfo">下一页</button>
+            <button type="button" class="btn btn-secondary btn-sm checkInfo">尾页</button>
+        </div>
+    </div>
+</div>
+<script src="/vendor/jquery/jquery.min.js"></script>
+<script src="/vendor/popper.js/popper.min.js"></script>
+<script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="/vendor/chart.js/chart.min.js"></script>
+<script src="/js/my_kq.js"></script>
 </body>
 </html>

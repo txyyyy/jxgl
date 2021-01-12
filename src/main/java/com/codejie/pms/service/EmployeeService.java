@@ -48,4 +48,41 @@ public interface EmployeeService {
      * 添加加班信息
      */
     int insertOverWork(OverWork overWork);
+    /**
+     * 查看用户的请假信息
+     */
+    List<EmployLeave> getEmployLeaveByUserId(EmployLeave employLeave, int pageNum, int pageSize);
+    /**
+     * 添加请假申请
+     */
+    int insertEmployLeave(EmployLeave employLeave);
+
+    /**
+     * 修改请假状态
+     */
+    int updateLeaveStatus(EmployLeave employLeave);
+    /**
+     * 修改加班状态
+     */
+    int updateOverWorkStatus(OverWork overWork);
+    /**
+     * 员工签到
+     */
+    int signIn(CheckInfo checkInfo);
+    /**
+     * 员工签退
+     */
+    int signOut(CheckInfo checkInfo);
+    /**
+     * 查看个人考勤记录
+     */
+    List<CheckInfo> selectCheck(CheckInfo checkInfo, int pageNum, int pageSize);
+    /**
+     * 检查是否签到
+     */
+    int checkSignIn(String userId);
+    /**
+     * 检查是否签退
+     */
+    int checkSignOut(String userId);
 }

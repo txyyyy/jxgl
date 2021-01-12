@@ -6,6 +6,24 @@
     <insert id="insertOverWork">
         insert into overwork(userId,departmentId,workDay,userName,workDesc,isRestDay,workTime) values(#{userId},#{departmentId},#{workDay},#{userName},#{workDesc},#{isRestDay},#{workTime})
     </insert>
+    <insert id="insertEmployLeave">
+        insert into employee_leave(jobNumber,departmentId,leaveTime,leaveReason,leaveDuration) values(#{jobNumber},#{departmentId},#{leaveTime},#{leaveReason},#{leaveDuration})
+    </insert>
+    <update id="updateLeaveStatus">
+        update employee_leave set status=#{status} where id=#{id}
+    </update>
+    <update id="updateOverWorkStatus">
+        update overwork set status=#{status} where overworkId=#{overworkId}
+    </update>
+    <insert id="signIn">
+        insert into checkinfo(userId,userName,departmentId,signInTime,signInStatus,signDate) values(#{userId},#{userName},#{departmentId},#{signInTime},#{signInStatus},#{signDate})
+    </insert>
+    <update id="signOut">
+        update checkinfo set signOutStatus=#{signOutStatus},signOutTime=#{signOutTime} where userId=#{userId} and signDate=#{signDate}
+    </update>
+    <select id="checkSign" parameterType="com.codejie.pms.entity.CheckInfo" resultType="com.codejie.pms.entity.CheckInfo">
+        select * from checkinfo where userId=#{userId} and signDate=#{signDate}
+    </select>
 
     <select id="getAddPoint" parameterType="com.codejie.pms.entity.AddPoint" resultType="com.codejie.pms.entity.AddPoint">
         select addId,userId,userName,addDesc,addPoint,addTime
@@ -85,6 +103,12 @@
     </select>
     <select id="selectUserInfo" resultType="com.codejie.pms.entity.User">
         select * from user where userId=#{userId}
+    </select>
+    <select id="getEmployLeaveByUserId" resultType="com.codejie.pms.entity.EmployLeave">
+        select * from employee_leave where jobNumber=#{jobNumber}
+    </select>
+    <select id="selectCheck" resultType="com.codejie.pms.entity.CheckInfo">
+        select c.*,d.departmentName from checkinfo c,department d where userId=#{userId} and c.departmentId=d.departmentId and c.signDate != #{thisDay} order by signDate desc
     </select>
 
 

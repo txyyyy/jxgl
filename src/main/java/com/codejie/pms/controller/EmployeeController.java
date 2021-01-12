@@ -4,6 +4,7 @@ import com.codejie.pms.entity.*;
 import com.codejie.pms.service.EmployeeService;
 import com.codejie.pms.service.UserService;
 import com.github.pagehelper.PageInfo;
+import com.sun.xml.internal.rngom.ast.util.CheckingSchemaBuilder;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -274,6 +275,83 @@ public class EmployeeController {
     @RequestMapping("/insertOverWork")
     public int insertOverWork(OverWork overWork) {
         return employeeService.insertOverWork(overWork);
+    }
+    /**
+     * 我的请假信息
+     */
+    @RequestMapping("/getEmployeeLeave")
+    @ResponseBody
+    public PageInfo<EmployLeave> getEmployeeLeave(String userId,
+                                             @RequestParam(defaultValue = "1") int pageNum,
+                                             @RequestParam(defaultValue = "10") int pageSize) {
+        EmployLeave employLeave = new EmployLeave();
+        employLeave.setJobNumber(userId);
+        List<EmployLeave> list = employeeService.getEmployLeaveByUserId(employLeave, pageNum, pageSize);
+        PageInfo<EmployLeave> pageInfo = new PageInfo<>(list);
+        return pageInfo;
+    }
+    /**
+     * 添加请假信息
+     */
+    @RequestMapping("/insertEmoloyeeLeave")
+    public int insertEmoloyeeLeave(EmployLeave employLeave) {
+        return employeeService.insertEmployLeave(employLeave);
+    }
+    /**
+     * 审核请假信息(修改状态)
+     */
+    @RequestMapping("/updateLeaveStatus")
+    public int updateLeaveStatus(EmployLeave employLeave) {
+        return employeeService.updateLeaveStatus(employLeave);
+    }
+    /**
+     * 审核加班信息(修改状态)
+     */
+    @RequestMapping("/updateOverWorkStatus")
+    public int updateOverWorkStatus(OverWork overWork) {
+        return employeeService.updateOverWorkStatus(overWork);
+    }
+    /**
+     * 员工签到打卡
+     */
+    @RequestMapping("/signIn")
+    public int signIn(CheckInfo checkInfo) {
+        return employeeService.signIn(checkInfo);
+    }
+    /**
+     * 员工签退打卡
+     */
+    @RequestMapping("/signOut")
+    public int signOut(CheckInfo checkInfo) {
+        return employeeService.signOut(checkInfo);
+    }
+    /**
+     * 查看个人考勤信息
+     */
+    @RequestMapping("/getCheckInfoByUserId")
+    @ResponseBody
+    public PageInfo<CheckInfo> getCheckInfoByUserId(String userId,
+                                                  @RequestParam(defaultValue = "1") int pageNum,
+                                                  @RequestParam(defaultValue = "10") int pageSize) {
+        CheckInfo checkInfo = new CheckInfo();
+        checkInfo.setUserId(userId);
+        List<CheckInfo> list = employeeService.selectCheck(checkInfo, pageNum, pageSize);
+        PageInfo<CheckInfo> pageInfo = new PageInfo<>(list);
+        return pageInfo;
+    }
+    /**
+     * 检验员工当天是否打卡
+     */
+    @RequestMapping("/checkSignInStatus")
+    public int checkSignInStatus(String userId) {
+        return employeeService.checkSignIn(userId);
+    }
+    /**
+     * 检验员工是否签退
+     */
+    @RequestMapping("/checkSignOutStatus")
+    public int checkSignOutStatus(String userId) {
+        return employeeService.checkSignOut(userId);
     }
 
 }

@@ -1,9 +1,11 @@
 package com.codejie.pms.service.impl;
 
 import com.codejie.pms.entity.*;
+import com.codejie.pms.mapper.EmployeeMapper;
 import com.github.pagehelper.PageHelper;
 import com.codejie.pms.mapper.HrMapper;
 import com.codejie.pms.service.HrService;
+import com.sun.xml.internal.rngom.ast.util.CheckingSchemaBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -15,7 +17,8 @@ public class HrServiceImpl implements HrService {
 
     @Resource
     private HrMapper hrMapper;
-
+    @Resource
+    private EmployeeMapper employeeMapper;
     @Override
     public String haveId(String id) {
         String userId = hrMapper.haveId(id);
@@ -142,5 +145,50 @@ public class HrServiceImpl implements HrService {
     @Override
     public List<WeakCheck> allCheck() {
         return hrMapper.allCheck();
+    }
+
+    @Override
+    public List<EmployLeave> selectWaitDepartmentLeave(String userId, int pageNum, int pageSize) {
+        User user = employeeMapper.selectUserInfo(userId);
+        EmployLeave employLeave = new EmployLeave();
+        employLeave.setDepartmentId(user.getDepartmentId());
+        PageHelper.startPage(pageNum, pageSize);
+        return hrMapper.selectWaitDepartmentLeave(employLeave);
+    }
+
+    @Override
+    public List<OverWork> selectWaitDepartmentOverWork(String userId, int pageNum, int pageSize) {
+        User user = employeeMapper.selectUserInfo(userId);
+        OverWork overWork = new OverWork();
+        overWork.setDepartmentId(user.getDepartmentId());
+        PageHelper.startPage(pageNum, pageSize);
+        return hrMapper.selectWaitDepartmentOverWork(overWork);
+    }
+
+    @Override
+    public List<EmployLeave> selectDepartmentLeave(String userId, int pageNum, int pageSize) {
+        User user = employeeMapper.selectUserInfo(userId);
+        EmployLeave employLeave = new EmployLeave();
+        employLeave.setDepartmentId(user.getDepartmentId());
+        PageHelper.startPage(pageNum, pageSize);
+        return hrMapper.selectDepartmentLeave(employLeave);
+    }
+
+    @Override
+    public List<OverWork> selectDepartmentOverWork(String userId, int pageNum, int pageSize) {
+        User user = employeeMapper.selectUserInfo(userId);
+        OverWork overWork = new OverWork();
+        overWork.setDepartmentId(user.getDepartmentId());
+        PageHelper.startPage(pageNum, pageSize);
+        return hrMapper.selectDepartmentOverWork(overWork);
+    }
+
+    @Override
+    public List<CheckInfo> selectDepartmentCheck(String userId, int pageNum, int pageSize) {
+        User user = employeeMapper.selectUserInfo(userId);
+        CheckInfo checkInfo = new CheckInfo();
+        checkInfo.setDepartmentId(user.getDepartmentId());
+        PageHelper.startPage(pageNum, pageSize);
+        return hrMapper.selectDepartmentCheck(checkInfo);
     }
 }

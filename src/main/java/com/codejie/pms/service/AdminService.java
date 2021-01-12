@@ -105,4 +105,24 @@ public interface AdminService {
     List<Kpi> selectKpiList13();
 
     void kpAdd13(AddPointDepartment addPointDepartment)throws Exception;
+    /**
+     * 分页查看所有请假信息(管理员)
+     */
+    List<EmployLeave> selectAllEmployLeave(int pageNum, int pageSize);
+    /**
+     * 分页查看所有加班信息(管理员)
+     */
+    List<OverWork> selectAllOverWork(int pageNum, int pageSize);
+    /**
+     * 分页查看待审核请假信息(管理员)
+     */
+    List<EmployLeave> selectWaitEmployLeave(int pageNum, int pageSize);
+    /**
+     * 分页查看待审核加班信息（管理员）
+     */
+    List<OverWork> selectWaitOverWork(int pageNum, int pageSize);
+    /**
+     * 查看所有考勤记录
+     */
+    List<CheckInfo> selectAllCheck(int pageNum, int pageSize);
 }

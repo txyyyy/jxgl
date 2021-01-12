@@ -528,5 +528,8 @@ public class DateUtil {
         return newDate;
     }
 
-
+//    public static void main(String[] args) {
+//        String ss = getDateTime().substring(0,10);
+//        System.out.println(ss);
+//    }
 }
