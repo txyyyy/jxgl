@@ -78,6 +78,14 @@ public interface EmployeeMapper {
      */
     int updateOverWorkStatus(OverWork overWork);
     /**
+     * 添加员工今日出勤记录
+     */
+    int insertCheckInfo(CheckInfo checkInfo);
+    /**
+     * 检验是否有当天出勤记录
+     */
+    CheckInfo selectCheckToday(CheckInfo checkInfo);
+    /**
      * 员工签到
      */
     int signIn(CheckInfo checkInfo);

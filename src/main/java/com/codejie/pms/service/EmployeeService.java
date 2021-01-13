@@ -1,6 +1,8 @@
 package com.codejie.pms.service;
 
 import com.codejie.pms.entity.*;
+
+import java.text.ParseException;
 import java.util.List;
 
 public interface EmployeeService {
@@ -68,11 +70,11 @@ public interface EmployeeService {
     /**
      * 员工签到
      */
-    int signIn(CheckInfo checkInfo);
+    int signIn(CheckInfo checkInfo) throws ParseException;
     /**
      * 员工签退
      */
-    int signOut(CheckInfo checkInfo);
+    int signOut(CheckInfo checkInfo) throws ParseException;
     /**
      * 查看个人考勤记录
      */
@@ -85,4 +87,6 @@ public interface EmployeeService {
      * 检查是否签退
      */
     int checkSignOut(String userId);
+
+
 }

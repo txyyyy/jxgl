@@ -52,7 +52,10 @@
             line-height: 60px;
             margin-left: 20px;
         }
-
+        #noSignIn,#noSignOut{
+            background-color: darkgray;
+            color: grey;
+        }
     </style>
 </head>
 <body>
@@ -61,15 +64,18 @@
 <div class="jumbotron">
     <h1>员工考勤签到</h1>
     <p class="lead">当前时间:&nbsp;&nbsp;<span id="thisTime">----年--月--日 --:--:--</span></p>
+    <span style="float: right">工作时间:8:30--17:30</span><br>
     <hr class="my-4">
-    <p>&nbsp;&nbsp;&nbsp;注:&nbsp;上班打卡时间07:00-08:30 &nbsp;&nbsp;&nbsp;&nbsp;下班打卡时间17:30-21:00</p>
+    <p>&nbsp;&nbsp;&nbsp;注:&nbsp;上班可打卡时间07:00-11:59 &nbsp;&nbsp;&nbsp;&nbsp;下班可打卡时间16:00-21:00</p>
     <p class="lead">
         <span id="signInStatus" class="badge badge-danger">未打卡</span>
         <span id="isLate" class="badge badge-warning" style="display: none">迟到</span>
-        <span id="signIn" class="btn btn-primary btn-lg" href="#" role="button" style="margin-left: 2%">上班打卡</span>
+        <span id="signIn" class="btn btn-primary btn-lg"  role="button" style="margin-left: 2%;">上班打卡</span>
+        <span id="noSignIn" class="btn btn-primary btn-lg" href="#"  style="margin-left: 2%;display: none;cursor: default">无法打卡</span>
         <span id="signOutStatus" class="badge badge-danger">未打卡</span>
         <span id="isBefore" class="badge badge-warning" style="display: none;color: lightslategrey">早退</span>
-        <span id="signOut" class="btn btn-primary btn-lg" href="#" role="button" style="margin-left: 2%">下班打卡</span>
+        <span id="signOut" class="btn btn-primary btn-lg" role="button" style="margin-left: 2%">下班打卡</span>
+        <span id="noSignOut" class="btn btn-primary btn-lg" href="#"  style="margin-left: 2%;display: none;cursor: default">无法打卡</span>
     </p>
 </div>
 <div class="card">

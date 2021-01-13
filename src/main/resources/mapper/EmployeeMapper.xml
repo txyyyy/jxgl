@@ -15,8 +15,11 @@
     <update id="updateOverWorkStatus">
         update overwork set status=#{status} where overworkId=#{overworkId}
     </update>
-    <insert id="signIn">
-        insert into checkinfo(userId,userName,departmentId,signInTime,signInStatus,signDate) values(#{userId},#{userName},#{departmentId},#{signInTime},#{signInStatus},#{signDate})
+    <update id="signIn">
+        update checkinfo set signInStatus=#{signInStatus},signInTime=#{signInTime} where userId=#{userId} and signDate=#{signDate}
+    </update>
+    <insert id="insertCheckInfo">
+        insert into checkinfo(userId,userName,departmentId,signDate) values(#{userId},#{userName},#{departmentId},#{signDate})
     </insert>
     <update id="signOut">
         update checkinfo set signOutStatus=#{signOutStatus},signOutTime=#{signOutTime} where userId=#{userId} and signDate=#{signDate}
@@ -109,6 +112,9 @@
     </select>
     <select id="selectCheck" resultType="com.codejie.pms.entity.CheckInfo">
         select c.*,d.departmentName from checkinfo c,department d where userId=#{userId} and c.departmentId=d.departmentId and c.signDate != #{thisDay} order by signDate desc
+    </select>
+    <select id="selectCheckToday" resultType="com.codejie.pms.entity.CheckInfo">
+        select * from checkinfo where userId=#{userId} and signDate=#{signDate}
     </select>
 
 

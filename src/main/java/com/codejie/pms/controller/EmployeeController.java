@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -315,14 +316,14 @@ public class EmployeeController {
      * 员工签到打卡
      */
     @RequestMapping("/signIn")
-    public int signIn(CheckInfo checkInfo) {
+    public int signIn(CheckInfo checkInfo) throws ParseException {
         return employeeService.signIn(checkInfo);
     }
     /**
      * 员工签退打卡
      */
     @RequestMapping("/signOut")
-    public int signOut(CheckInfo checkInfo) {
+    public int signOut(CheckInfo checkInfo) throws ParseException  {
         return employeeService.signOut(checkInfo);
     }
     /**

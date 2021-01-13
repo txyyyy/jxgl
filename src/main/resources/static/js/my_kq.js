@@ -23,7 +23,7 @@ function getDate() {
     //将时间写入div
     div1.innerHTML = date1;
 }
-    setInterval("getDate()",1000);
+setInterval("getDate()",1000);
 function myCheckMsg() {
     $.ajax({
         url: "/employee/getCheckInfoByUserId",     //后台请求的数据
@@ -129,14 +129,19 @@ function checkStatus(){
         success: function (data) {      //如果请求成功，返回数据。
             signInStatus=data;
             if(data==1){
-                $("#signIn").html("已打卡");
-                $("#signIn").css("cursor","default");
+                $("#noSignIn").html("已打卡");
+                $("#signIn").css("display","none");
+                $("#noSignIn").css("display","inline-block");
                 $("#signIn").css({'background-color':'darkgrey','color':'grey'});
             }else if(data==2){
-                $("#signIn").html("已打卡");
-                $("#signIn").css("cursor","default");
-                $("#isLate").css("display","inline");
+                $("#noSignIn").html("已打卡");
+                $("#signIn").css("display","none");
+                $("#noSignIn").css("display","inline-block");
+                $("#isLate").css("display","inline-block");
                 $("#signIn").css({'background-color':'darkgrey','color':'grey'});
+            }else if(data==0){
+                $("#noSignOut").css("display","inline-block");
+                $("#signOut").css("display","none");
             }
         },
     });
@@ -156,7 +161,7 @@ function checkStatus(){
             }else if(data==2){
                 $("#signOut").html("已打卡");
                 $("#signOut").css("cursor","default");
-                $("#isBefore").css("display","inline");
+                $("#isBefore").css("display","inline-block");
                 $("#signOut").css({'background-color':'darkgrey','color':'grey'});
             }
         },
@@ -165,12 +170,12 @@ function checkStatus(){
 
 }
 function checkSignTime() {
-    var startSignInTime = new Date();
-    startSignInTime.setHours(3);
+    var startSignInTime = new Date();   //允许签到的开始时间
+    startSignInTime.setHours(7);
     startSignInTime.setMinutes(0);
     startSignInTime.setSeconds(0);
     var startSignInTimes=startSignInTime.getTime();
-    var endSignInTime = new Date();
+    var endSignInTime = new Date();     //允许签到的结束时间
     endSignInTime.setHours(11);
     endSignInTime.setMinutes(59);
     endSignInTime.setSeconds(59);
@@ -179,16 +184,73 @@ function checkSignTime() {
     if(startSignInTimes<timeNow && timeNow<endSignInTimes){
 
     }else {
-        $("#signIn").html("无法打卡");
-        $("#signIn").css("cursor","default");
-        $("#signIn").css({'background-color':'darkgrey','color':'grey'});
+        $("#signIn").css("display","none");
+        $("#noSignIn").css("display","inline-block");
     }
-    if($("#signIn").html()=="已打卡") {
+    var startSignOutTime = new Date();//允许签退的开始时间
+    startSignOutTime.setHours(16);
+    startSignOutTime.setMinutes(0);
+    startSignOutTime.setSeconds(0);
+    var startSignOutTimes=startSignOutTime.getTime();
+    var endSignOutTime = new Date(); //允许签退的结束时间
+    endSignOutTime.setHours(21);
+    endSignOutTime.setMinutes(0);
+    endSignOutTime.setSeconds(0);
+    var endSignOutTimes=endSignOutTime.getTime();
+    if(startSignOutTimes<timeNow && timeNow<endSignOutTimes){
 
     }else {
-        $("#signOut").html("无法打卡");
-        $("#signOut").css("cursor","default");
-        $("#signOut").css({'background-color':'darkgrey','color':'grey'});
+        $("#signOut").css("display","none");
+        $("#noSignOut").css("display","inline-block");
+    }
+}
+$("#signIn").click(function () {
+
+        if($("#signIn").css("display")=="inline-block"){
+            $.ajax({
+                url: "/employee/signIn",     //后台请求的数据
+                data: {
+                    "userId": userId,
+                },
+                type: "post",                  //请求方式
+                async: true,                   //是否异步请求
+                success: function (data) {      //如果请求成功，返回数据。
+                    alert("打卡成功！");
+                    checkStatus();
+                },
+                error:function () {
+                    alert("打卡失败！");
+                    checkStatus();
+                }
+
+            });
+        }
+
+
+
+})
+$("#signOut").click(function () {
+
+    if($("#signOut").css("display")=="inline-block"){
+        $.ajax({
+            url: "/employee/signOut",     //后台请求的数据
+            data: {
+                "userId": userId,
+            },
+            type: "post",                  //请求方式
+            async: true,                   //是否异步请求
+            success: function (data) {      //如果请求成功，返回数据。
+                alert("打卡成功！");
+                checkStatus();
+            },
+            error:function () {
+                alert("打卡失败！");
+                checkStatus();
+            }
+
+        });
     }
 
-}
+
+
+})

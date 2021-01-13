@@ -520,7 +520,11 @@ public class DateUtil {
         SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd");
         return dateFormat.format(date);
     }
-
+    public static String getNowTime(){
+        Date date = new Date();
+        SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return dateFormat.format(date);
+    }
     public static String getDateMonth(){
         Date date = new Date();
         SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd");
@@ -528,8 +532,17 @@ public class DateUtil {
         return newDate;
     }
 
-//    public static void main(String[] args) {
-//        String ss = getDateTime().substring(0,10);
-//        System.out.println(ss);
+    public static Boolean contrastBefore(String beginTime,String endTime) throws ParseException {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date sd1=df.parse(beginTime);
+        Date sd2=df.parse(endTime);
+        return sd1.before(sd2);
+    }
+//    public static void main(String[] args) throws ParseException {
+//        String beginTime = getNowTime();
+//        System.out.println(beginTime);
+//        String endTime = "2021-01-14 02:02:30";
+//
+//        System.out.println(contrastBefore(beginTime,endTime));
 //    }
 }
