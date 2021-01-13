@@ -102,6 +102,10 @@ public interface EmployeeMapper {
      * 查看当天考勤信息是否打卡
      */
     CheckInfo checkSign(CheckInfo checkInfo);
+    /**
+     * 查看个人请假日期集合
+     */
+    List<EmployLeave> selectEmployLeave(String userId);
 
 
 

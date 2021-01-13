@@ -45,7 +45,14 @@ function myCheckMsg() {
                 $("#department").html(content.departmentName);
                 var signInStatus ="";
                 var signOutStatus="";
-
+                var signInTime="";
+                var signOutTime="";
+                if(content.signInStatus != 0){
+                    signInTime=content.signInTime;
+                }
+                if(content.signOutStatus != 0 ){
+                    signOutTime=content.signOutTime;
+                }
                 if(content.signInStatus == 0){
                     signInStatus="<span style='color:red'>缺勤</span>";
                 }else if(content.signInStatus == 1){
@@ -67,9 +74,9 @@ function myCheckMsg() {
 
                 var trHTML = "<tr>"
                     + "<td>" + content.signDate + "</td>"
-                    + "<td>" + content.signInTime + "</td>"
+                    + "<td>" + signInTime + "</td>"
                     +"<td>" + signInStatus + "</td>"
-                    +"<td>" + content.signOutTime+ "</td>"
+                    +"<td>" + signOutTime+ "</td>"
                     +"<td>" + signOutStatus + "</td>"
                     +"</tr>";
                 $("#table_checkInfo tbody").append(trHTML);//在table最后面添加一行
@@ -130,16 +137,19 @@ function checkStatus(){
             signInStatus=data;
             if(data==1){
                 $("#noSignIn").html("已打卡");
+                $("#signInStatus").css("display","none");
                 $("#signIn").css("display","none");
                 $("#noSignIn").css("display","inline-block");
                 $("#signIn").css({'background-color':'darkgrey','color':'grey'});
             }else if(data==2){
                 $("#noSignIn").html("已打卡");
+                $("#signInStatus").css("display","none");
                 $("#signIn").css("display","none");
                 $("#noSignIn").css("display","inline-block");
                 $("#isLate").css("display","inline-block");
                 $("#signIn").css({'background-color':'darkgrey','color':'grey'});
             }else if(data==0){
+                $("#signInStatus").css("display","inline-block");
                 $("#noSignOut").css("display","inline-block");
                 $("#signOut").css("display","none");
             }
@@ -155,14 +165,23 @@ function checkStatus(){
         success: function (data) {      //如果请求成功，返回数据。
             signOutStatus=data;
             if(data==1){
-                $("#signOut").html("已打卡");
+                $("#noSignOut").html("已打卡");
+                $("#signOutStatus").css("display","none");
+                $("#noSignOut").css("display","inline-block");
                 $("#signOut").css("cursor","default");
+                $("#signOut").css("display","none");
                 $("#signOut").css({'background-color':'darkgrey','color':'grey'});
             }else if(data==2){
-                $("#signOut").html("已打卡");
-                $("#signOut").css("cursor","default");
+                $("#noSignOut").html("已打卡");
+                $("#noSignOut").css("display","inline-block");
+                $("#signOutStatus").css("display","none");
+                $("#noSignOut").css("cursor","default");
+                $("#signOut").css("display","none");
                 $("#isBefore").css("display","inline-block");
-                $("#signOut").css({'background-color':'darkgrey','color':'grey'});
+                $("#noSignOut").css({'background-color':'darkgrey','color':'grey'});
+            }else {
+                $("#signOutStatus").css("display","inline-block");
+
             }
         },
     });

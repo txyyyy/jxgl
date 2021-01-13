@@ -58,7 +58,7 @@
 <body>
 <input type="hidden" id="userId" name="userId" th:value="${userId}"/>
 <div class="card">
-    <div class="myOverWork" style="height: 10px">
+    <div class="myLeaveMsg" style="height: 10px">
         我的请假列表
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong" style="float: right;margin-right: 20px;margin-top: 10px;font-size: 16px">
@@ -81,17 +81,17 @@
                     <form>
                         <div class="form-group">
                             <label>*请选择请假时间：</label><br>
-                            <input id="workDay" type="date"><br>
+                            <input id="leaveDay" type="date"><br>
                             <label style="display: inline-block;margin-top: 10px">*请输入请假天数：</label><br>
-                            <input class="form-control" id="leaveTime"  type="text" placeholder="请输入请假天数"/><br>
+                            <input class="form-control" id="leaveDuration"  type="text" placeholder="请输入请假天数"/><br>
                             <label style="display: inline-block;margin-top: 10px">*请输入请假原因：</label>
-                            <input class="form-control" id="overWorkdesc"  type="text" placeholder="请输入加班原因"/>
+                            <input class="form-control" id="leaveDesc"  type="text" placeholder="请输入请假原因"/>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cancelSubmit">取消</button>
-                    <button type="button" class="btn btn-primary"  data-dismiss="modal" id="submitOverWork">提交申请</button>
+                    <button type="button" class="btn btn-primary"  data-dismiss="modal" id="submitLeave">提交申请</button>
                 </div>
             </div>
         </div>

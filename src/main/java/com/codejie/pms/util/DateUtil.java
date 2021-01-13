@@ -538,11 +538,24 @@ public class DateUtil {
         Date sd2=df.parse(endTime);
         return sd1.before(sd2);
     }
+
+    public static String addDay(String createDate,int day){
+        SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd");
+        String temp = "";
+        try {
+            Date date = dateFormat.parse(createDate);
+            Calendar cl = Calendar.getInstance();
+            cl.setTime(date);
+            cl.add(Calendar.DATE, day);
+            temp = dateFormat.format(cl.getTime());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return temp;
+    }
 //    public static void main(String[] args) throws ParseException {
-//        String beginTime = getNowTime();
-//        System.out.println(beginTime);
-//        String endTime = "2021-01-14 02:02:30";
-//
-//        System.out.println(contrastBefore(beginTime,endTime));
+//        String beginTime = getDateTime();
+//        int day = 25;
+//        System.out.println(addDay(beginTime,day));
 //    }
 }

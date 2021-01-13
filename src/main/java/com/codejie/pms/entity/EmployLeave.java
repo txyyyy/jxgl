@@ -6,13 +6,13 @@ public class EmployLeave {
     private String departmentId;
     private String leaveTime;
     private String leaveReason;
-    private float leaveDuration;
+    private int leaveDuration;
     private int status;
 
     public EmployLeave() {
     }
 
-    public EmployLeave(int id, String jobNumber, String departmentId, String leaveTime, String leaveReason, float leaveDuration, int status) {
+    public EmployLeave(int id, String jobNumber, String departmentId, String leaveTime, String leaveReason, int leaveDuration, int status) {
         this.id = id;
         this.jobNumber = jobNumber;
         this.departmentId = departmentId;
@@ -66,7 +66,7 @@ public class EmployLeave {
         return leaveDuration;
     }
 
-    public void setLeaveDuration(float leaveDuration) {
+    public void setLeaveDuration(int leaveDuration) {
         this.leaveDuration = leaveDuration;
     }
 
