@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -49,52 +49,51 @@
     </style>
 </head>
 <body>
+<input type="hidden" id="userId" name="userId" th:value="${userId}"/>
                 <div class="card">
                     <div class="card-header bg-light">
-                        近期(半个月)员工扣绩效信息
+                        员工考勤信息
                     </div>
+
                     <div class="row mt-4">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <input id="userId" name="userId" class="form-control" placeholder="输入工号查询">
+<!--                                <input name="userId" class="form-control" placeholder="输入工号查询">-->
+                                <h4 style="font-weight: bold">所属部门:<span style="padding-left: 8px" id="departmentName"></span></h4>
                             </div>
                         </div>
 <!--                        <div class="col-md-4">-->
 <!--                            <div class="form-group">-->
-<!--                                <input id="deleteDesc" name="deleteDesc" class="form-control" placeholder="输入扣绩效原因(模糊)查询">-->
+<!--                                <button class="btn btn-rounded btn-primary" id="search_reward">搜索</button>-->
 <!--                            </div>-->
 <!--                        </div>-->
                         <div class="col-md-4">
                             <div class="form-group">
-                                <button class="btn btn-rounded btn-primary" id="search_reward">搜索</button>
+<!--                                <h4 style="font-weight: bold">所属部门:<span style="padding-left: 8px" id="departmentName"></span></h4>-->
                             </div>
                         </div>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-bordered" id="table_add">
+                            <table class="table table-bordered" id="table_addthree">
                                 <thead>
                                 <tr>
                                     <th>工号</th>
                                     <th>姓名</th>
-                                    <th>所属部门</th>
-                                    <th>出勤天数</th>
-                                    <th>休息天数</th>
-                                    <th>迟到次数</th>
-                                    <th>早退次数</th>
-                                    <th>旷工次数</th>
-                                    <th>请假次数</th>
-                                    <th>加班时长</th>
+                                    <th>签到时间</th>
+                                    <th>签到状态</th>
+                                    <th>签退时间</th>
+                                    <th>签退状态</th>
+                                    <th>日期</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-
                                 </tbody>
                             </table>
-                            <button type="button" class="btn btn-secondary btn-sm add">首页</button>
-                            <button type="button" class="btn btn-secondary btn-sm add">上一页</button>
-                            <button type="button" class="btn btn-secondary btn-sm add">下一页</button>
-                            <button type="button" class="btn btn-secondary btn-sm add">尾页</button>
+                            <button type="button" class="btn btn-secondary btn-sm addthree">首页</button>
+                            <button type="button" class="btn btn-secondary btn-sm addthree">上一页</button>
+                            <button type="button" class="btn btn-secondary btn-sm addthree">下一页</button>
+                            <button type="button" class="btn btn-secondary btn-sm addthree">尾页</button>
                         </div>
                     </div>
                 </div>
@@ -104,5 +103,118 @@
 <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
 <script src="/vendor/chart.js/chart.min.js"></script>
 <script src="/js/hr/all_del.js"></script>
+<script>
+    var kq_pageNum = 1, pageSize = 10, kq_pages = 0;
+    var userId = $("#userId").val();
+    $(document).ready(function () {
+        init();
+    });
+    /**
+     * 初始化函数
+     */
+    function init() {
+        addPointtwo();
+    }
+    //展示所有请假信息
+    function addPointtwo() {
+        $.ajax({
+            url: "/hr/getCheckInfoByDepartment",     //后台请求的数据
+            data: {
+                "pageSize": pageSize,
+                "pageNum": kq_pageNum,
+                "userId": userId,
+            },
+            type: "post",                  //请求方式
+            async: true,                   //是否异步请求
+            success: function (data) {
+                $('#departmentName').html(data.list[1].departmentName)
+                //如果请求成功，返回数据。
+                $("#table_addthree tbody").html("");
+                qj_pagestwo = data.pages;
+                var list_ = data.list;
+                for (var i = 1; i < list_.length + 1; i++) {
+                    var content = list_[i - 1];
+                    var gb = content.permissionDegree;
+                    if(gb==3){
+                        gb="是";
+                    }else{
+                        gb="否";
+                    }
+                    var status = content.status==0?'未审核':content.status==1?'已通过':'未通过';
+                    var leaveid=content.id;
+                    var signInStatus = '';
+                    var signOutStatus = '';
+                    if(content.signInStatus == 0){
+                        signInStatus='缺勤'
+                    }else if(content.signInStatus == 1){
+                        signInStatus='已打卡'
+                    }else if(content.signInStatus == 2){
+                        signInStatus='迟到'
+                    }else if(content.signInStatus == 3) {
+                        signInStatus='请假'
+                    }
+                    if(content.signOutStatus == 0) {
+                        signOutStatus='缺勤';
+                    }else if(content.signOutStatus == 1 ) {
+                        signOutStatus='已打卡';
+                    }else if(content.signOutStatus == 2 ) {
+                        signOutStatus='早退';
+                    }else if(content.signOutStatus == 3 ) {
+                        signOutStatus='请假';
+                    }
+                    var trHTML = "<tr>"
+                        + "<td>" + content.userId + "</td>"
+                        + "<td>" + content.userName + "</td>"
+                        + "<td>" + content.signInTime + "</td>"
+                        + "<td>" + signInStatus + "</td>"
+                        + "<td>" + content.signOutTime + "</td>"
+                        + "<td>" + signOutStatus + "</td>"
+                        + "<td>" + content.signDate+"</td>"
+                        /* + "<td>" + gb + "</td>"*/
+                        + "</tr>";
+                    $("#table_addthree tbody").append(trHTML);//在table最后面添加一行
+                }
+
+            },
+        });
+    }
+    /**
+     * 翻页
+     */
+    $(".addthree").click(function () {
+        var data = $(this).html();
+        switch (data) {
+            case "首页":
+                if (kq_pageNum == 1) {
+                    break;
+                }
+                kq_pageNum = 1;
+                addPointtwo();
+                break;
+            case "上一页":
+                if (kq_pageNum == 1) {
+                    break;
+                }
+                kq_pageNum--;
+                addPointtwo();
+                break;
+            case "下一页":
+                if (kq_pageNum == kq_pages) {
+                    break;
+                }
+                kq_pageNum++;
+                addPointtwo();
+                break;
+            case "尾页":
+                if (kq_pageNum == kq_pages) {
+                    break;
+                }
+                kq_pageNum = kq_pages;
+                addPointtwo();
+                break;
+        }
+    });
+
+</script>
 </body>
 </html>

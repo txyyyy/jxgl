@@ -7,6 +7,8 @@ $(document).ready(function () {
         success : function(data) {      //如果请求成功，返回数据。
             $("#myMsg").text(data.userName);
             $("#my_qingjia").attr("href","/hr/all_qingjia?userId="+data.userId);
+            $("#my_kaoqing").attr("href","/hr/all_del?userId="+data.userId);
+            $("#my_jx").attr("href","/hr/all_add?userId="+data.userId);
         },
     });
     document.getElementsByTagName('body')[0].style.height = window.innerHeight+'px';

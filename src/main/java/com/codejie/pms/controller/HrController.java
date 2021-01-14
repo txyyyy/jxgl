@@ -259,17 +259,19 @@ public class HrController {
     /**
      * Description 打开近期扣绩效
      */
-    @RequestMapping(value = "/all_del")
-    public ModelAndView allDel() {
+    @RequestMapping(value = "/all_del",method = RequestMethod.GET)
+    public ModelAndView allDel(String userId) {
         ModelAndView mv = new ModelAndView("/hr/all_del");
+        mv.addObject("userId",userId);
         return mv;
     }
     /**
      * Description 打开近期加绩效
      */
-    @RequestMapping(value = "/all_add")
-    public ModelAndView allAdd() {
+    @RequestMapping(value = "/all_add",method = RequestMethod.GET)
+    public ModelAndView allAdd(String userId) {
         ModelAndView mv = new ModelAndView("/hr/all_add");
+        mv.addObject("userId",userId);
         return mv;
     }
 //    请假管理
