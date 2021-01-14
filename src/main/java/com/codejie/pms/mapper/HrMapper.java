@@ -1,6 +1,8 @@
 package com.codejie.pms.mapper;
 
 import com.codejie.pms.entity.*;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 /**
@@ -66,6 +68,9 @@ public interface HrMapper {
     /**
      * 分页查看本部门考勤记录
      */
-    List<CheckInfo> selectDepartmentCheck(CheckInfo checkInfo);
-
+    List<CheckInfo> selectDepartmentCheck(@Param("departmentId")String departmentId, @Param("thisDay")String thisDay);
+    /**
+     * 查看部门请假集合
+     */
+    List<EmployLeave> selectEmployLeaveByDepartment(String departmentId);
 }

@@ -2,6 +2,7 @@ package com.codejie.pms.service.impl;
 
 import com.codejie.pms.entity.*;
 import com.codejie.pms.mapper.EmployeeMapper;
+import com.codejie.pms.util.DateUtil;
 import com.github.pagehelper.PageHelper;
 import com.codejie.pms.mapper.HrMapper;
 import com.codejie.pms.service.HrService;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -186,9 +188,41 @@ public class HrServiceImpl implements HrService {
     @Override
     public List<CheckInfo> selectDepartmentCheck(String userId, int pageNum, int pageSize) {
         User user = employeeMapper.selectUserInfo(userId);
-        CheckInfo checkInfo = new CheckInfo();
-        checkInfo.setDepartmentId(user.getDepartmentId());
-        PageHelper.startPage(pageNum, pageSize);
-        return hrMapper.selectDepartmentCheck(checkInfo);
+        List<EmployLeave> leaveList=new ArrayList<>();
+        PageHelper.startPage(pageNum,pageSize);
+        String thisDay= DateUtil.getDateTime();
+        List<CheckInfo> result = hrMapper.selectDepartmentCheck(user.getDepartmentId(),thisDay);//考勤信息集合
+        List<EmployLeave> leaveMsg = hrMapper.selectEmployLeaveByDepartment(user.getDepartmentId());//请假信息集合
+        if(result.size()>0 || result!=null){
+            if(leaveMsg!=null){
+                for(int i=0;i<leaveMsg.size();i++) {
+                    String leaveDate = leaveMsg.get(i).getLeaveTime();
+                    for(int j=0;j<leaveMsg.get(i).getLeaveDuration();j++) { //将请假天数拆成每一个日期
+                        EmployLeave employLeave = new EmployLeave();
+                        employLeave.setLeaveTime(DateUtil.addDay(leaveDate,j));
+                        leaveList.add(employLeave);
+                    }
+                }
+
+                for(int i=0;i<result.size();i++){  //遍历请假的日期集合，将考勤表对应的日期的状态改成请假
+
+                    for(int j=0;j<leaveList.size();j++){
+                        System.out.println(leaveList.get(j).getLeaveTime());
+                        if(result.get(i).getSignDate().equals(leaveList.get(j).getLeaveTime())){
+                            result.get(i).setSignInStatus(3);
+                            result.get(i).setSignOutStatus(3);
+                            result.get(i).setSignInTime("");
+                            result.get(i).setSignOutTime("");
+                        }
+                    }
+                }
+                return result;
+
+            }else {
+                return result;
+            }
+        }
+
+        return null;
     }
 }

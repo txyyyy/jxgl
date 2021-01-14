@@ -334,11 +334,16 @@ public class EmployeeController {
     public PageInfo<CheckInfo> getCheckInfoByUserId(String userId,
                                                   @RequestParam(defaultValue = "1") int pageNum,
                                                   @RequestParam(defaultValue = "10") int pageSize) {
-        CheckInfo checkInfo = new CheckInfo();
-        checkInfo.setUserId(userId);
-        List<CheckInfo> list = employeeService.selectCheck(checkInfo, pageNum, pageSize);
-        PageInfo<CheckInfo> pageInfo = new PageInfo<>(list);
-        return pageInfo;
+        if(userId!=null){
+            CheckInfo checkInfo = new CheckInfo();
+            checkInfo.setUserId(userId);
+            List<CheckInfo> list = employeeService.selectCheck(checkInfo, pageNum, pageSize);
+            PageInfo<CheckInfo> pageInfo = new PageInfo<>(list);
+            return pageInfo;
+        }else {
+            return null;
+        }
+
     }
     /**
      * 检验员工当天是否打卡
