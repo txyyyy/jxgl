@@ -35,7 +35,18 @@ public class HrController {
         ModelAndView mv = new ModelAndView("/hr/all_user");
         return mv;
     }
-
+    /**
+     * Description 打开我的个人信息页面
+     */
+    @RequestMapping(value = "/getMyMsg",method = RequestMethod.GET)
+    public ModelAndView getMyMsg(String userId) {
+        ModelAndView mv = new ModelAndView("/hr/my_msg");
+        User user = new User();
+        user.setUserId(userId);
+        User user1 = userService.selectUser(user);
+        mv.addObject("user",user1);
+        return mv;
+    }
     /**
      * Description 所有员工信息
      */

@@ -1,11 +1,14 @@
 #开发配置
 spring:
+  mvc:
+    favicon:enabled=false:
 #  resources:
 #    static-locations: classpath:/;
   thymeleaf:
     cache:  false
   #数据源配置
   datasource:
+
     type: com.alibaba.druid.pool.DruidDataSource
     url: jdbc:mysql://118.178.254.81:3306/pms?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
     username: root
