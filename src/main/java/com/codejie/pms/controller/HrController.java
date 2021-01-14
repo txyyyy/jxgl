@@ -273,9 +273,10 @@ public class HrController {
         return mv;
     }
 //    请假管理
-    @RequestMapping(value = "/all_qingjia")
-    public ModelAndView allQingJia() {
+    @RequestMapping(value = "/all_qingjia",method = RequestMethod.GET)
+    public ModelAndView allQingJia(String userId) {
         ModelAndView mv = new ModelAndView("/hr/all_qingjia");
+        mv.addObject("userId",userId);
         return mv;
     }
     /**

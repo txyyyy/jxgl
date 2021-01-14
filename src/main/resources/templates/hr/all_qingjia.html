@@ -52,7 +52,7 @@
 <input type="hidden" id="userId" name="userId" th:value="${userId}"/>
 <div class="card">
     <div class="card-header bg-light">
-        员工请假信息
+        员工请假审核列表
     </div>
     <div class="row mt-4">
         <div class="col-md-4">
@@ -105,7 +105,7 @@
 <script src="/vendor/chart.js/chart.min.js"></script>
 <!--<srcipt src="/js/hr/all_qingjia.js"></srcipt>-->
 <script>
-    var add_pageNum = 1, pageSize = 10, add_pages = 0;
+    var qj_pageNum = 1, pageSize = 10, qj_pages = 0;
     var userId = $("#userId").val();
     $(document).ready(function () {
         init();
@@ -119,17 +119,18 @@
     }
     function addPoint() {
         $.ajax({
-            url: "/admin/getAllLeave",     //后台请求的数据
+            url: "/hr/getWaitEmployeeLeaveByDepartment",     //后台请求的数据
             data: {
                 "pageSize": pageSize,
-                "pageNum": add_pageNum,
-                "userId":userId,
+                "pageNum": qj_pageNum,
+                "userId": userId,
             },
             type: "post",                  //请求方式
             async: true,                   //是否异步请求
-            success: function (data) {      //如果请求成功，返回数据。
+            success: function (data) {  
+                //如果请求成功，返回数据。
                 $("#table_add tbody").html("");
-                add_pages = data.pages;
+                qj_pages = data.pages;
                 var list_ = data.list;
                 for (var i = 1; i < list_.length + 1; i++) {
                     var content = list_[i - 1];
@@ -152,6 +153,7 @@
                         departmentId='财务部'
                     }
                     var status = content.status==0?'未审核':content.status==1?'已通过':'未通过';
+                    var leaveid=content.id;
                     var trHTML = "<tr>"
                         + "<td>" + content.jobNumber + "</td>"
                         + "<td>" + content.userName + "</td>"
@@ -160,19 +162,60 @@
                         + "<td>" + content.leaveReason + "</td>"
                         + "<td>" + content.leaveDuration + "</td>"
                         + "<td>" + status+"</td>"
-                        + "<td>" + "<button id='a'+content.id type=\"button\" class=\"btn btn-success\">通过</button>"+ "<button style='margin-left: 10px' type=\"button\" class=\"btn btn-danger\">打回</button>"+"</td>"
+                        + "<td>" + "<button type=\"button\" class=\"btn btn-success\" onclick='pass("+leaveid+")'>通过</button>"+ "<button style='margin-left: 10px' type=\"button\" class=\"btn btn-danger\" onclick='nopass("+leaveid+")'>打回</button>"+"</td>"
                         /* + "<td>" + gb + "</td>"*/
                         + "</tr>";
-
+                    $("#passone"+i).click(function (){
+                        console.log("aagd")
+                    })
                     $("#table_add tbody").append(trHTML);//在table最后面添加一行
                 }
-                $("#a"+content.id).click(function (){
-                    console.log("aagd")
-                })
+
             },
         });
     }
+    function pass(leaveid){
+        $.ajax({
+            url: "/employee/updateLeaveStatus",     //后台请求的数据
+            data: {
+                "id": leaveid,
+                "status": 1
+            },
+            type: "post",                  //请求方式
+            async: true,                   //是否异步请求
+            success: function (data) {
+                alert("审核成功!");
+                addPoint();
+            },
+            error:function () {
+                alert("审核失败！");
+                addPoint();
+            }
 
+
+        });
+    }
+    function nopass(leaveid){
+        $.ajax({
+            url: "/employee/updateLeaveStatus",     //后台请求的数据
+            data: {
+                "id": leaveid,
+                "status": 2
+            },
+            type: "post",                  //请求方式
+            async: true,                   //是否异步请求
+            success: function (data) {
+                alert("审核成功!");
+                addPoint();
+            },
+            error:function () {
+                alert("审核失败！");
+                addPoint();
+            }
+
+
+        });
+    }
     /**
      * 翻页
      */
@@ -180,31 +223,31 @@
         var data = $(this).html();
         switch (data) {
             case "首页":
-                if (add_pageNum == 1) {
+                if (qj_pageNum == 1) {
                     break;
                 }
-                add_pageNum = 1;
+                qj_pageNum = 1;
                 addPoint();
                 break;
             case "上一页":
-                if (add_pageNum == 1) {
+                if (qj_pageNum == 1) {
                     break;
                 }
-                add_pageNum--;
+                qj_pageNum--;
                 addPoint();
                 break;
             case "下一页":
-                if (add_pageNum == add_pages) {
+                if (qj_pageNum == qj_pages) {
                     break;
                 }
-                add_pageNum++;
+                qj_pageNum++;
                 addPoint();
                 break;
             case "尾页":
-                if (add_pageNum == add_pages) {
+                if (qj_pageNum == qj_pages) {
                     break;
                 }
-                add_pageNum = add_pages;
+                qj_pageNum = qj_pages;
                 addPoint();
                 break;
         }

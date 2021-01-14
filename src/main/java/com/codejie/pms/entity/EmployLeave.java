@@ -3,6 +3,7 @@ package com.codejie.pms.entity;
 public class EmployLeave {
     private int id;
     private String jobNumber;
+    private String userName;
     private String departmentId;
     private String leaveTime;
     private String leaveReason;
@@ -12,9 +13,10 @@ public class EmployLeave {
     public EmployLeave() {
     }
 
-    public EmployLeave(int id, String jobNumber, String departmentId, String leaveTime, String leaveReason, int leaveDuration, int status) {
+    public EmployLeave(int id, String jobNumber, String userName, String departmentId, String leaveTime, String leaveReason, int leaveDuration, int status) {
         this.id = id;
         this.jobNumber = jobNumber;
+        this.userName = userName;
         this.departmentId = departmentId;
         this.leaveTime = leaveTime;
         this.leaveReason = leaveReason;
@@ -78,11 +80,20 @@ public class EmployLeave {
         this.status = status;
     }
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
     @Override
     public String toString() {
         return "EmployLeave{" +
                 "id=" + id +
                 ", jobNumber='" + jobNumber + '\'' +
+                ", userName='" + userName + '\'' +
                 ", departmentId='" + departmentId + '\'' +
                 ", leaveTime='" + leaveTime + '\'' +
                 ", leaveReason='" + leaveReason + '\'' +
