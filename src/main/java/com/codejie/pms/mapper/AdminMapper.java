@@ -2,6 +2,7 @@ package com.codejie.pms.mapper;
 
 import com.codejie.pms.entity.*;
 import com.codejie.pms.entity.dto.DepartmentDelDto;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -36,7 +37,7 @@ public interface AdminMapper {
 
 
 
-
+    int countOverWorkByMonth(@Param("userId")String userId,@Param("month")String month);
 
     /**
      * Description 开发部kpi列表1
@@ -137,4 +138,9 @@ public interface AdminMapper {
      * 查看所有考勤记录
      */
     List<CheckInfo> selectAllCheck(String thisDay);
+
+    /**
+     * 根据月份查看用户的考勤信息
+     */
+    List<CheckInfo> selectCheckByMonth(@Param("month")String month, @Param("userId")String userId,@Param("thisDay")String thisDay);
 }

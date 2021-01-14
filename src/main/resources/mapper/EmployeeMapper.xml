@@ -7,7 +7,7 @@
         insert into overwork(userId,departmentId,workDay,userName,workDesc,isRestDay,workTime) values(#{userId},#{departmentId},#{workDay},#{userName},#{workDesc},#{isRestDay},#{workTime})
     </insert>
     <insert id="insertEmployLeave">
-        insert into employee_leave(jobNumber,departmentId,leaveTime,leaveReason,leaveDuration) values(#{jobNumber},#{departmentId},#{leaveTime},#{leaveReason},#{leaveDuration})
+        insert into employee_leave(userName,jobNumber,departmentId,leaveTime,leaveReason,leaveDuration) values(#{userName},#{jobNumber},#{departmentId},#{leaveTime},#{leaveReason},#{leaveDuration})
     </insert>
     <update id="updateLeaveStatus">
         update employee_leave set status=#{status} where id=#{id}
@@ -108,7 +108,7 @@
         select * from user where userId=#{userId}
     </select>
     <select id="getEmployLeaveByUserId" resultType="com.codejie.pms.entity.EmployLeave">
-        select * from employee_leave where jobNumber=#{jobNumber}
+        select * from employee_leave where jobNumber=#{jobNumber} order by leaveTime desc
     </select>
     <select id="selectCheck" resultType="com.codejie.pms.entity.CheckInfo">
         select c.*,d.departmentName from checkinfo c,department d where userId=#{userId} and c.departmentId=d.departmentId and c.signDate != #{thisDay} order by signDate desc

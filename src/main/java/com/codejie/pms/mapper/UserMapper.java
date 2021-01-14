@@ -93,4 +93,8 @@ public interface UserMapper {
      */
     List<Kpi> selectKpiList1();
 
+    /**
+     * 查询所有用户
+     */
+    List<User> selectAllUserInfo();
 }

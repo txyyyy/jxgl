@@ -154,6 +154,9 @@
         where kpiProperty = 1
         order by kpiId asc
     </select>
+    <select id="selectAllUserInfo" resultType="com.codejie.pms.entity.User">
+        select * from user
+    </select>
 
     <insert id="saveKpi" parameterType="com.codejie.pms.entity.Kpi">
         insert into

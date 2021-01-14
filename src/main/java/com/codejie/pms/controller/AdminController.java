@@ -1,6 +1,7 @@
 package com.codejie.pms.controller;
 
 import com.codejie.pms.entity.*;
+import com.codejie.pms.entity.dto.JXDto;
 import com.codejie.pms.entity.dto.NameValueDto;
 import com.codejie.pms.service.AdminService;
 import com.codejie.pms.service.HrService;
@@ -849,5 +850,28 @@ public class AdminController {
         List<CheckInfo> list = adminService.selectAllCheck(pageNum, pageSize);
         PageInfo<CheckInfo> pageInfo = new PageInfo<>(list);
         return pageInfo;
+    }
+    /**
+     * 获取用户考勤统计信息
+     *
+     */
+    @RequestMapping("/getAllCheckCountInfo")
+    @ResponseBody
+    public PageInfo<JXDto> getAllCheckCountInfo(String month,
+            @RequestParam(defaultValue = "1") int pageNum,
+            @RequestParam(defaultValue = "10") int pageSize) {
+
+        List<JXDto> list = adminService.getAllCheckCountInfo(month,pageNum, pageSize);
+        PageInfo<JXDto> pageInfo = new PageInfo<>(list);
+        return pageInfo;
+    }
+    /**
+     * 打开管理员绩效信息界面
+     */
+    @RequestMapping(value = "/jx")
+    public ModelAndView jxMsg(String userId) {
+        ModelAndView mv = new ModelAndView("/admin/jx");
+        mv.addObject("userId",userId);
+        return mv;
     }
 }

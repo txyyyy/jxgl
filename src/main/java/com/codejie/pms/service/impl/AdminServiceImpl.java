@@ -1,20 +1,20 @@
 package com.codejie.pms.service.impl;
 
 import com.codejie.pms.entity.*;
+import com.codejie.pms.entity.dto.JXDto;
 import com.codejie.pms.entity.dto.NameValueDto;
 import com.codejie.pms.mapper.AdminMapper;
 import com.codejie.pms.mapper.EmployeeMapper;
 import com.codejie.pms.entity.dto.DepartmentDelDto;
 import com.codejie.pms.mapper.HrMapper;
+import com.codejie.pms.mapper.UserMapper;
 import com.codejie.pms.service.AdminService;
 import com.codejie.pms.util.DateUtil;
 import com.github.pagehelper.PageHelper;
+import com.sun.tools.javac.comp.Check;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -23,6 +23,8 @@ public class AdminServiceImpl implements AdminService {
     private AdminMapper adminMapper;
     @Resource
     private EmployeeMapper employeeMapper;
+    @Resource
+    private UserMapper userMapper;
 
 
 
@@ -373,5 +375,65 @@ public class AdminServiceImpl implements AdminService {
         return null;
 
 
+    }
+
+    @Override
+    public List<JXDto> getAllCheckCountInfo(String month,int pageNum, int pageSize) {
+        List<User> list = userMapper.selectAllUserInfo();
+        List<JXDto> jxDtos = new ArrayList<>();
+        if(list==null||list.size()==0){
+            return null;
+        }
+        for(int i=0;i<list.size();i++){
+            int lateNum=0;
+            int beforeNum=0;
+            int leaveNum=0;
+            int overWorkNum=0;
+            int queqinNum=0;
+            if(list.get(i).getPermissionDegree()!=1){
+                Department department = new Department();
+                department.setDepartmentId(list.get(i).getDepartmentId());
+                JXDto jxDto = new JXDto();
+                List<CheckInfo> checkInfos = new ArrayList<>();
+                String userId=list.get(i).getUserId();
+                String thisDay = DateUtil.getDateTime();
+                checkInfos=adminMapper.selectCheckByMonth(month,userId,thisDay);
+                jxDto.setMonth(month);
+                jxDto.setUserId(userId);
+                jxDto.setDepartmentId(list.get(i).getDepartmentId());
+                jxDto.setUserName(list.get(i).getUserName());
+                Department resultDepartment = adminMapper.selectDepartment(department);
+                jxDto.setDepartmentName(resultDepartment.getDepartmentName());
+                if(checkInfos!=null && checkInfos.size()!=0){
+                    for(int j=0;j<checkInfos.size();j++){
+                        if(checkInfos.get(j).getSignInStatus()==0){
+                            queqinNum++;
+                        }else if(checkInfos.get(j).getSignInStatus()==2){
+                            lateNum++;
+                        }else if(checkInfos.get(j).getSignInStatus()==3){
+                            leaveNum++;
+                        }
+                        if(checkInfos.get(j).getSignOutStatus()==0){
+                            queqinNum++;
+                        }else if(checkInfos.get(j).getSignOutStatus()==2){
+                            beforeNum++;
+                        }
+                    }
+                }
+
+                jxDto.setBeforeNum(beforeNum);
+                jxDto.setLateNum(lateNum);
+                jxDto.setLeaveNum(leaveNum);
+                jxDto.setQueqinNum(queqinNum);
+                overWorkNum=adminMapper.countOverWorkByMonth(userId,month);
+                jxDto.setOverWorkNum(overWorkNum);
+                jxDto.setCheckInfos(checkInfos);
+                jxDtos.add(jxDto);
+            }
+
+
+
+        }
+        return jxDtos;
     }
 }

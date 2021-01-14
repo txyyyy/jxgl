@@ -87,6 +87,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public int insertEmployLeave(EmployLeave employLeave) {
+
+        User user = employeeMapper.selectUserInfo(employLeave.getJobNumber());
+        employLeave.setDepartmentId(user.getDepartmentId());
+        employLeave.setUserName(user.getUserName());
         return employeeMapper.insertEmployLeave(employLeave);
     }
 

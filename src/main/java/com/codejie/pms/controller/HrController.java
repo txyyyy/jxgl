@@ -447,7 +447,8 @@ public class HrController {
     public PageInfo<CheckInfo> getCheckInfoByUserId(String userId,
             @RequestParam(defaultValue = "1") int pageNum,
             @RequestParam(defaultValue = "10") int pageSize) {
-        if(userId!=null){        List<CheckInfo> list = hrService.selectDepartmentCheck(userId,pageNum, pageSize);
+        if(userId!=null){
+            List<CheckInfo> list = hrService.selectDepartmentCheck(userId,pageNum, pageSize);
             PageInfo<CheckInfo> pageInfo = new PageInfo<>(list);
             return pageInfo;
         }else {

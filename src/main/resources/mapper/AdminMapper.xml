@@ -298,6 +298,9 @@
     <select id="selectAllCheck" resultType="com.codejie.pms.entity.CheckInfo">
         select c.*,d.departmentName from checkinfo c,department d where c.departmentId=d.departmentId and c.signDate != #{thisDay} order by signDate desc
     </select>
+    <select id="selectCheckByMonth" resultType="com.codejie.pms.entity.CheckInfo">
+        select c.*,d.departmentName from checkinfo c,department d where userId=#{userId} and c.departmentId=d.departmentId and c.signDate != #{thisDay} and (c.signInStatus!=1 or c.signOutStatus!=1) and c.signDate LIKE CONCAT('%',#{month},'%') order by c.signDate desc
+    </select>
     <insert id="kpAdd13" parameterType="com.codejie.pms.entity.AddPointDepartment">
         insert into add_point_department(departmentId,departmentName,addPoint,addDesc,addTime,quarter,checkId)
         values (#{departmentId},#{departmentName},#{addPoint},#{addDesc},#{addTime},#{quarter},#{checkId})
@@ -305,5 +308,8 @@
     <update id="addPoint13" parameterType="com.codejie.pms.entity.AddPointDepartment">
         update department set departmentKpi=departmentKpi+#{addPoint} where departmentId=#{departmentId}
     </update>
+    <select id="countOverWorkByMonth" resultType="integer">
+        select count(overworkId) from overwork where status=1 and workDay LIKE CONCAT('%',#{month},'%') and userId =#{userId}
+    </select>
 
 </mapper>
