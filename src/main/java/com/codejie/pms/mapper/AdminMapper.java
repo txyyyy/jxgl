@@ -136,5 +136,5 @@ public interface AdminMapper {
     /**
      * 查看所有考勤记录
      */
-    List<CheckInfo> selectAllCheck();
+    List<CheckInfo> selectAllCheck(String thisDay);
 }

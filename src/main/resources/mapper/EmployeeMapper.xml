@@ -119,6 +119,9 @@
     <select id="selectEmployLeave" resultType="com.codejie.pms.entity.EmployLeave">
         select * from employee_leave where jobNumber=#{userId} and status=1
     </select>
+    <select id="selectAllEmployLeave" resultType="com.codejie.pms.entity.EmployLeave">
+        select * from employee_leave where status=1
+    </select>
 
 
 </mapper>

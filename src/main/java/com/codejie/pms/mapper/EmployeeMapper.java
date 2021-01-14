@@ -106,6 +106,10 @@ public interface EmployeeMapper {
      * 查看个人请假日期集合
      */
     List<EmployLeave> selectEmployLeave(String userId);
+    /**
+     * 查看所有请假日期集合
+     */
+    List<EmployLeave> selectAllEmployLeave();
 
 
 

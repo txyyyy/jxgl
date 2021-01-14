@@ -334,7 +334,44 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public List<CheckInfo> selectAllCheck(int pageNum, int pageSize) {
-        PageHelper.startPage(pageNum, pageSize);
-        return adminMapper.selectAllCheck();
+
+        List<EmployLeave> leaveList=new ArrayList<>();
+        PageHelper.startPage(pageNum,pageSize);
+        String thisDay=DateUtil.getDateTime();
+        List<CheckInfo> result = adminMapper.selectAllCheck(thisDay);//考勤信息集合
+        List<EmployLeave> leaveMsg = employeeMapper.selectAllEmployLeave();//请假信息集合
+        if(result.size()>0 || result!=null){
+            if(leaveMsg!=null){
+                for(int i=0;i<leaveMsg.size();i++) {
+                    String leaveDate = leaveMsg.get(i).getLeaveTime();
+                    for(int j=0;j<leaveMsg.get(i).getLeaveDuration();j++) { //将请假天数拆成每一个日期
+                        EmployLeave employLeave = new EmployLeave();
+                        employLeave.setLeaveTime(DateUtil.addDay(leaveDate,j));
+                        leaveList.add(employLeave);
+                    }
+                }
+
+                for(int i=0;i<result.size();i++){  //遍历请假的日期集合，将考勤表对应的日期的状态改成请假
+
+                    for(int j=0;j<leaveList.size();j++){
+                        System.out.println(leaveList.get(j).getLeaveTime());
+                        if(result.get(i).getSignDate().equals(leaveList.get(j).getLeaveTime())){
+                            result.get(i).setSignInStatus(3);
+                            result.get(i).setSignOutStatus(3);
+                            result.get(i).setSignInTime("");
+                            result.get(i).setSignOutTime("");
+                        }
+                    }
+                }
+                return result;
+
+            }else {
+                return result;
+            }
+        }
+
+        return null;
+
+
     }
 }

@@ -296,7 +296,7 @@
         select * from employee_leave
     </select>
     <select id="selectAllCheck" resultType="com.codejie.pms.entity.CheckInfo">
-        select * from checkInfo order by signDate desc
+        select c.*,d.departmentName from checkinfo c,department d where c.departmentId=d.departmentId and c.signDate != #{thisDay} order by signDate desc
     </select>
     <insert id="kpAdd13" parameterType="com.codejie.pms.entity.AddPointDepartment">
         insert into add_point_department(departmentId,departmentName,addPoint,addDesc,addTime,quarter,checkId)

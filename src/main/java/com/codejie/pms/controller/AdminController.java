@@ -840,4 +840,14 @@ public class AdminController {
     /**
      * 查看所有考勤信息
      */
+    @RequestMapping("/getCheckInfo")
+    @ResponseBody
+    public PageInfo<CheckInfo> getCheckInfoByUserId(
+                                                    @RequestParam(defaultValue = "1") int pageNum,
+                                                    @RequestParam(defaultValue = "10") int pageSize) {
+
+        List<CheckInfo> list = adminService.selectAllCheck(pageNum, pageSize);
+        PageInfo<CheckInfo> pageInfo = new PageInfo<>(list);
+        return pageInfo;
+    }
 }
