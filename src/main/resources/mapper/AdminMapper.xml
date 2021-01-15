@@ -305,14 +305,32 @@
         insert into add_point_department(departmentId,departmentName,addPoint,addDesc,addTime,quarter,checkId)
         values (#{departmentId},#{departmentName},#{addPoint},#{addDesc},#{addTime},#{quarter},#{checkId})
     </insert>
+    <insert id="createSalary">
+        insert into salary(userId,totalPay,finalPay,lateCutPay,overTimePay,lateCount,overTimeCount,salaryMonth) values(#{userId},#{totalPay},#{finalPay},#{lateCutPay},#{overTimePay},#{lateCount},#{overTimeCount},#{salaryMonth})
+    </insert>
     <update id="addPoint13" parameterType="com.codejie.pms.entity.AddPointDepartment">
         update department set departmentKpi=departmentKpi+#{addPoint} where departmentId=#{departmentId}
+    </update>
+    <update id="updateSalaryRule">
+        update salaryrule set latePay=#{latePay},overTimePay=#{overTimePay} where id =1
     </update>
     <select id="countOverWorkByMonth" resultType="integer">
         select count(overworkId) from overwork where status=1 and workDay LIKE CONCAT('%',#{month},'%') and userId =#{userId}
     </select>
     <select id="selectUserSalaryByMonth" resultType="com.codejie.pms.entity.Salary">
         select * from salary where userId=#{userId} and salaryMonth=#{salaryMonth}
+    </select>
+    <select id="selectSalaryRule" resultType="com.codejie.pms.entity.Salaryrule">
+        select * from salaryrule where id =1
+    </select>
+    <select id="selectMonthSalary" resultType="java.lang.Integer">
+        select count(salaryId) from salary where salaryMonth=#{month}
+    </select>
+    <select id="selectCheckInfoByUserIdOnMonth" resultType="com.codejie.pms.entity.CheckInfo">
+                select * from checkinfo where userId=#{userId} and signDate LIKE CONCAT('%',#{month},'%')
+    </select>
+    <select id="selectOverWorkOnMonth" resultType="com.codejie.pms.entity.OverWork">
+        select * from overwork where userId=#{userId} and workDay LIKE CONCAT('%',#{month},'%') and status=1
     </select>
 
 </mapper>

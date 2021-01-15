@@ -15,6 +15,8 @@ import com.github.pagehelper.PageHelper;
 import com.sun.tools.javac.comp.Check;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.text.DecimalFormat;
 import java.util.*;
 
@@ -465,5 +467,86 @@ public class AdminServiceImpl implements AdminService {
 
         }
         return salaryDtos;
+    }
+
+    @Override
+    public int updateSalaryRule(BigDecimal latePay, BigDecimal overTimepay) {
+        return adminMapper.updateSalaryRule(latePay,overTimepay);
+    }
+
+    @Override
+    public Salaryrule selectSalaryRule() {
+        return adminMapper.selectSalaryRule();
+    }
+
+    @Override
+    public Boolean selectMonthSalary(String month) {
+        int count = adminMapper.selectMonthSalary(month);
+        if(count>0){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    @Override
+    public int insertSalaryByMonth(String month) {
+        List<User> users=userMapper.selectAllUserInfo();
+        if(users==null||users.size()==0){
+            return 0;
+        }
+        for(int i =0;i<users.size();i++){
+            User user = users.get(i);
+            String userId = user.getUserId();
+            int queQinComeCount=0;
+            int queQinGoCount=0;
+            int queQinCount=0;
+            int late=0;
+            int before=0;
+            int lateCount=0;
+
+            Salaryrule salaryrule = adminMapper.selectSalaryRule();
+            BigDecimal latePay=salaryrule.getLatePay();
+            BigDecimal overTimeAddPay = salaryrule.getOverTimePay();
+            BigDecimal queQinPay = salaryrule.getQueQinPay();
+            List<CheckInfo> checkInfos = adminMapper.selectCheckInfoByUserIdOnMonth(userId,month);//获得当月缺勤次数
+            int overworkTime = 0;
+            List<OverWork> overWorks = adminMapper.selectOverWorkOnMonth(userId,month);
+            if(checkInfos.size()>0&&checkInfos!=null){
+                for(int j=0;j<checkInfos.size();j++){
+                    if(checkInfos.get(j).getSignInStatus()==0){
+                        queQinComeCount++;
+                    }else if(checkInfos.get(j).getSignInStatus()==2){
+                        late++;
+                    }
+                    if(checkInfos.get(j).getSignOutStatus()==0){
+                        queQinGoCount++;
+                    }else if(checkInfos.get(j).getSignOutStatus()==2){
+                        before++;
+                    }
+                }
+            }
+            for(int k=0;k<overWorks.size();k++){
+                overworkTime=overworkTime+Integer.parseInt(overWorks.get(k).getWorkTime());
+            }
+                    lateCount=late+before;
+                    queQinCount=queQinComeCount+queQinGoCount;
+
+                    BigDecimal lateCutPay= salaryrule.getLatePay().multiply(BigDecimal.valueOf(lateCount));
+                    BigDecimal overTimePay=overTimeAddPay.multiply(BigDecimal.valueOf(overworkTime));
+                    Salary salary = new Salary();
+                    salary.setLateCount(lateCount);
+                    salary.setSalaryMonth(month);
+                    salary.setUserId(userId);
+                    salary.setLateCutPay(lateCutPay);
+                    salary.setOverTimePay(overTimePay);
+                    salary.setOverTimeCount(overworkTime);
+                    salary.setTotalPay(new BigDecimal(5000));
+                    salary.setFinalPay(new BigDecimal(5000).add(overTimePay).subtract(lateCutPay));
+                    adminMapper.createSalary(salary);
+
+
+        }
+        return 1;
     }
 }

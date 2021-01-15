@@ -71,9 +71,111 @@ function init() {
     setMonth();
     getSalary();
     showMask();
+    checkMonthSalary();
 }
+
+function checkMonthSalary(){
+    var month=new Date();
+    var result="";
+    var date = month.toLocaleDateString();
+    var last=date.lastIndexOf("/");
+    var before=date.indexOf("/");
+    if(last-before==2){
+        result= date.substring(0,before)+"-0"+date.substring(5,6);
+    }else {
+        result=date.substring(0,before)+"-"+date.substring(5,7);
+    }
+    $.ajax({
+        url: "/admin/selectMonthSalary",     //后台请求的数据
+        data: {
+            "month": result
+        },
+        type: "post",                  //请求方式
+        async: true,                   //是否异步请求
+        success: function (data) {      //如果请求成功，返回数据。
+            if(data){
+                $("#createSalary").css("cursor","default");
+                $("#createSalary").css({'background-color':'darkgrey','color':'grey'});
+            }else {
+                $("#createSalary").html("点击生成本月工资");
+            }
+        }
+
+    });
+}
+$("#createSalary").click(function () {
+    var month=new Date();
+    var result="";
+    var date = month.toLocaleDateString();
+    var last=date.lastIndexOf("/");
+    var before=date.indexOf("/");
+    if(last-before==2){
+        result= date.substring(0,before)+"-0"+date.substring(5,6);
+    }else {
+        result=date.substring(0,before)+"-"+date.substring(5,7);
+    }
+    if($("#createSalary").html()=="本月工资已生成"){
+    }else {
+        $.ajax({
+            url: "/admin/createSalary",     //后台请求的数据
+            data: {
+                "salaryMonth": result
+            },
+            type: "post",                  //请求方式
+            async: true,                   //是否异步请求
+            success: function (data) {      //如果请求成功，返回数据。
+                alert("工资生成成功!");
+                getSalary();
+            },
+            error:function () {
+                alert("工资生成失败！");
+            }
+
+        });
+    }
+})
+$("#submitSalaryRule").click(function () {
+    var latePay = $("#latePay").val();
+    var overTimePay = $("#overTimePay").val();
+    var queQinPay = $("#queQinPay").val();
+    $.ajax({
+        url: "/admin/updateSalaryRule",     //后台请求的数据
+        data: {
+            "latePay": latePay,
+            "overTimePay": overTimePay,
+            "queQinPay": queQinPay
+        },
+        type: "post",                  //请求方式
+        async: true,                   //是否异步请求
+        success: function (data) {      //如果请求成功，返回数据。
+            $("#latePay").val("");
+            $("#overTimePay").val("");
+            $("#queQinPay").val("");
+            alert("修改成功！");
+            getSalary();
+        },
+        error:function () {
+            alert("修改失败！");
+        }
+
+    });
+
+})
 $("#selectByMonth").click(function () {
     getSalary();
+
+})
+$("#updateSalaryRule").click(function () {
+    $.ajax({
+        url: "/admin/selectSalaryRule",     //后台请求的数据
+        type: "post",                  //请求方式
+        async: true,                   //是否异步请求
+        success: function (data) {      //如果请求成功，返回数据。
+            $("#latePay").val(data.latePay);
+            $("#overTimePay").val(data.overTimePay);
+            $("#queQinPay").val(data.queQinPay);
+        }
+    })
 
 })
 function setMonth() {
@@ -112,14 +214,14 @@ function getSalary() {
             for (var i = 1; i < list_.length+1; i++) {
                 var content = list_[i - 1];
                 var totalPay = "<span style='color: red'>暂无数据</span>";
-                var lateCutDay="<span style='color: red'>暂无数据</span>";
+                var lateCutPay="<span style='color: red'>暂无数据</span>";
                 var overTimePay="<span style='color: red'>暂无数据</span>";
                 var finalPay="<span style='color: red'>暂无数据</span>";
                 if(content.totalPay!=null){
                     totalPay=content.totalPay;
                 }
-                if(content.lateCutDay!=null){
-                    lateCutDay=content.lateCutDay;
+                if(content.lateCutPay!=null){
+                    lateCutPay=content.lateCutPay;
                 }
                 if(content.overTimePay!=null){
                     overTimePay=content.overTimePay;
@@ -132,7 +234,7 @@ function getSalary() {
                     + "<td>" + content.userName + "</td>"
                     +"<td>" + content.departmentName + "</td>"
                     + "<td>" + totalPay+ "</td>"
-                    +"<td>" + lateCutDay + "</td>"
+                    +"<td>" + lateCutPay + "</td>"
                     +"<td>" + overTimePay +"</td>"
                     +"<td>" + finalPay + "</td>"
                     +"</tr>";

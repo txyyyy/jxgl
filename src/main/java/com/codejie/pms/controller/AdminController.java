@@ -25,6 +25,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.math.BigDecimal;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -887,5 +889,27 @@ public class AdminController {
         List<SalaryDto> list = adminService.checkAllSalaryInfosByMonth(month,pageNum,pageSize);
         PageInfo<SalaryDto> pageInfo = new PageInfo<>(list);
         return pageInfo;
+    }
+    @RequestMapping("updateSalaryRule")
+    @ResponseBody
+    public int updateSalaryRule(BigDecimal latePay, BigDecimal overTimePay) {
+        return adminService.updateSalaryRule(latePay,overTimePay);
+    }
+    @RequestMapping("selectSalaryRule")
+    @ResponseBody
+    public Salaryrule selectSalaryRule() {
+        return adminService.selectSalaryRule();
+    }
+
+    @RequestMapping("selectMonthSalary")
+    @ResponseBody
+    public Boolean selectMonthSalary(String month) {
+        return adminService.selectMonthSalary(month);
+    }
+
+    @RequestMapping("createSalary")
+    @ResponseBody
+    public int createSalary(String salaryMonth) {
+        return adminService.insertSalaryByMonth(salaryMonth);
     }
 }

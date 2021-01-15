@@ -4,6 +4,7 @@ import com.codejie.pms.entity.*;
 import com.codejie.pms.entity.dto.DepartmentDelDto;
 import org.apache.ibatis.annotations.Param;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -148,4 +149,20 @@ public interface AdminMapper {
      * 根据月份查看用户的工资列表
      */
     Salary selectUserSalaryByMonth(@Param("salaryMonth")String salaryMonth,@Param("userId")String userId);
+    /**
+     * 修改工资规则
+     */
+    int updateSalaryRule(@Param("latePay")BigDecimal latePay,@Param("overTimePay")BigDecimal overTimePay);
+    /**
+     * 查看当前工资规则
+     */
+    Salaryrule selectSalaryRule();
+    int selectMonthSalary(String month);
+
+    int createSalary(Salary salary);
+
+    List<CheckInfo> selectCheckInfoByUserIdOnMonth(@Param("userId")String userId,@Param("month")String month);
+
+    List<OverWork> selectOverWorkOnMonth(@Param("userId")String userId,@Param("month")String month);
+
 }

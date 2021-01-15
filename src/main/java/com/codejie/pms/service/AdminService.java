@@ -5,6 +5,7 @@ import com.codejie.pms.entity.dto.JXDto;
 import com.codejie.pms.entity.dto.NameValueDto;
 import com.codejie.pms.entity.dto.SalaryDto;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -137,4 +138,22 @@ public interface AdminService {
      * 根据月份查看工资信息
      */
     List<SalaryDto> checkAllSalaryInfosByMonth(String month,int pageNum,int pageSize);
+    /**
+     * 修改工资配置信息
+     */
+    int updateSalaryRule(BigDecimal latePay,BigDecimal overTimepay);
+    /**
+     * 查看工资配置信息
+     */
+    Salaryrule selectSalaryRule();
+
+    /**
+     * 查询是否有当月工资
+     * @return
+     */
+    Boolean selectMonthSalary(String month);
+    /**
+     * 生成本月工资
+     */
+    int insertSalaryByMonth(String month);
 }
