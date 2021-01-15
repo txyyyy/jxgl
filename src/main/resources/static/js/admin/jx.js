@@ -1,14 +1,80 @@
 var userId = $("#userId").val();
 var jx_pageNum = 1, pageSize = 10, jx_pages = 0;
 $(document).ready(function () {
+    //createMask();
     init();
 });
+//创建遮罩层函数体
+function createMask(){
+    var node=document.createElement('div');
+    node.setAttribute('id','backdrop');
+    node.style="position:fixed;top:0;left:0;right:0;bottom:0;z-index:1000;background-color:rgba(0,0,0,0.3);";
+    node.style.display="none";
+    var html='<div style="position: fixed; top: 40%; left: 50%; z-index: 1001;">';
+    html+='<div style="text-align:center;">';
+    html+='<div class="spinner">'
+    html+='<div class="spinner-container container1">'
+    html+=' <div class="circle1"></div>'
+    html+='<div class="circle2"></div>'
+    html+='<div class="circle3"></div>'
+    html+=' <div class="circle4"></div>'
+    html+='</div>'
+    html+=' <div class="spinner-container container2">'
+    html+=' <div class="circle1"></div>'
+    html+='<div class="circle2"></div>'
+    html+='<div class="circle3"></div>'
+    html+=' <div class="circle4"></div>'
+    html+='</div>'
+
+    html+='<div class="spinner-container container3">'
+    html+=' <div class="circle1"></div>'
+    html+='<div class="circle2"></div>'
+    html+='<div class="circle3"></div>'
+    html+=' <div class="circle4"></div>'
+    html+='</div>'
+    html+='</div>'
+    html+='<div style="padding-left:10px;font-size:16px;color:#FFF; ">数据加载中...</div>';
+    html+='</div>';
+    html+='</div>';
+    node.innerHTML=html;
+    var body=document.querySelector('body');
+    body.appendChild(node);
+//		        $("#backdrop").trigger('create');
+
+}
+//开启遮罩层函数体
+
+function showMask(){
+    var backdrop=document.getElementById('backdrop');
+    backdrop.style.display='block';
+}
+
+
+
+//关闭遮罩层函数体
+function closeMask(){
+    var backdrop=document.getElementById('backdrop');
+    backdrop.style.display='none';
+}
+
+
+
+//页面初始化完成，关闭遮罩
+document.onreadystatechange = function(){
+    if(document.readyState == "complete"){
+        closeMask();
+    }
+}
 /**
  * 初始化函数
  */
 function init() {
     setMonth();
     getJxMsg();
+
+    showMask();
+
+
 }
 $("#selectByMonth").click(function () {
     getJxMsg();
@@ -31,6 +97,9 @@ function getJxMsg() {
     var month = $("#jxMonth").val()
     $("#monthNow").html(month);
     $.ajax({
+        beforeSend: function () {
+            showMask();
+        },
         url: "/admin/getAllCheckCountInfo",     //后台请求的数据
         data: {
             "pageSize": pageSize,
@@ -78,9 +147,10 @@ function getJxMsg() {
                      $("#table_jx tbody").append(trHTML);//在table最后面添加一行
                  }
              }
-
-
-            }
+            },
+        complete:function () {
+            closeMask();
+        }
 
     });
 }

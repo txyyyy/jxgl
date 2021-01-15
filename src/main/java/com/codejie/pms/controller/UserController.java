@@ -32,6 +32,7 @@ public class UserController {
         User user1 = userService.login(user);
         ModelAndView mv = new ModelAndView("login");
         if (user1 == null) {
+            mv.addObject("user","failed");
             return mv;
         }else if(user1.getPermissionDegree()==3){
             request.getSession().setAttribute("user",user1);
