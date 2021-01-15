@@ -7,6 +7,7 @@ $(document).ready(function () {
         success : function(data) {      //如果请求成功，返回数据。
             $("#myMsg").text(data.userName);
             $("#jx").attr("href","/admin/jx?userId="+data.userId);
+            $("#salary").attr("href","/admin/allSalary?userId="+data.userId);
         },
     });
     document.getElementsByTagName('body')[0].style.height = window.innerHeight+'px';

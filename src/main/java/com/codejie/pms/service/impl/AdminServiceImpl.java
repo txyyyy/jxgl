@@ -390,7 +390,7 @@ public class AdminServiceImpl implements AdminService {
             int leaveNum=0;
             int overWorkNum=0;
             int queqinNum=0;
-            if(list.get(i).getPermissionDegree()!=1){
+            if(list.get(i).getPermissionDegree()!=1 && list.get(i).getPermissionDegree()!=2){
                 Department department = new Department();
                 department.setDepartmentId(list.get(i).getDepartmentId());
                 JXDto jxDto = new JXDto();

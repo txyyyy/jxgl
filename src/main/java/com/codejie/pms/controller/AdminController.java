@@ -874,4 +874,16 @@ public class AdminController {
         mv.addObject("userId",userId);
         return mv;
     }
+    @RequestMapping("/allSalary")
+    public ModelAndView allSalary(String userId) {
+        ModelAndView mv = new ModelAndView("/admin/all_salary");
+        mv.addObject("userId",userId);
+        return mv;
+    }
+    @RequestMapping("getAllSalaryByMonth")
+    @ResponseBody
+    public PageInfo<JXDto> getAllSalaryByMonth(String month, @RequestParam(defaultValue = "1") int pageNum, @RequestParam(defaultValue = "10") int pageSize) {
+
+        return null;
+    }
 }
