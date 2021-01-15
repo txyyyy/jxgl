@@ -3,6 +3,7 @@ package com.codejie.pms.service.impl;
 import com.codejie.pms.entity.*;
 import com.codejie.pms.entity.dto.JXDto;
 import com.codejie.pms.entity.dto.NameValueDto;
+import com.codejie.pms.entity.dto.SalaryDto;
 import com.codejie.pms.mapper.AdminMapper;
 import com.codejie.pms.mapper.EmployeeMapper;
 import com.codejie.pms.entity.dto.DepartmentDelDto;
@@ -14,6 +15,7 @@ import com.github.pagehelper.PageHelper;
 import com.sun.tools.javac.comp.Check;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
+import java.text.DecimalFormat;
 import java.util.*;
 
 @Service
@@ -430,10 +432,38 @@ public class AdminServiceImpl implements AdminService {
                 jxDto.setCheckInfos(checkInfos);
                 jxDtos.add(jxDto);
             }
-
-
-
         }
         return jxDtos;
+    }
+
+    @Override
+    public List<SalaryDto> checkAllSalaryInfosByMonth(String month, int pageNum, int pageSize) {
+        List<User> users = userMapper.selectAllUserInfo();
+        List<SalaryDto> salaryDtos = new ArrayList<>();
+        PageHelper.startPage(pageNum,pageSize);
+        if(users==null||users.size()==0){
+            return null;
+        }
+        for(int i =0;i<users.size();i++){
+            SalaryDto salaryDto = new SalaryDto();
+            Department department = new Department();
+            User user = users.get(i);
+            salaryDto.setDepartmentId(user.getDepartmentId());
+            salaryDto.setUserId(user.getUserId());
+            salaryDto.setUserName(user.getUserName());
+            department.setDepartmentId(user.getDepartmentId());
+            Department resultDepartment = adminMapper.selectDepartment(department);
+            salaryDto.setDepartmentName(resultDepartment.getDepartmentName());
+            Salary salary =adminMapper.selectUserSalaryByMonth(month,user.getUserId());
+            if(salary!=null){
+                salaryDto.setFinalPay(salary.getFinalPay());
+                salaryDto.setLateCutPay(salary.getLateCutPay());
+                salaryDto.setOverTimePay(salary.getOverTimePay());
+                salaryDto.setTotalPay(salary.getTotalPay());
+            }
+            salaryDtos.add(salaryDto);
+
+        }
+        return salaryDtos;
     }
 }

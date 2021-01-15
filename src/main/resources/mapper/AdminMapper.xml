@@ -311,5 +311,8 @@
     <select id="countOverWorkByMonth" resultType="integer">
         select count(overworkId) from overwork where status=1 and workDay LIKE CONCAT('%',#{month},'%') and userId =#{userId}
     </select>
+    <select id="selectUserSalaryByMonth" resultType="com.codejie.pms.entity.Salary">
+        select * from salary where userId=#{userId} and salaryMonth=#{salaryMonth}
+    </select>
 
 </mapper>

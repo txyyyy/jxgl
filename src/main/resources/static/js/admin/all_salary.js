@@ -1,5 +1,66 @@
 var userId = $("#userId").val();
 var salary_pageNum = 1, pageSize = 10, salary_pages = 0;
+//创建遮罩层函数体
+function createMask(){
+    var node=document.createElement('div');
+    node.setAttribute('id','backdrop');
+    node.style="position:fixed;top:0;left:0;right:0;bottom:0;z-index:1000;background-color:rgba(0,0,0,0.3);";
+    node.style.display="none";
+    var html='<div style="position: fixed; top: 40%; left: 50%; z-index: 1001;">';
+    html+='<div style="text-align:center;">';
+    html+='<div class="spinner">'
+    html+='<div class="spinner-container container1">'
+    html+=' <div class="circle1"></div>'
+    html+='<div class="circle2"></div>'
+    html+='<div class="circle3"></div>'
+    html+=' <div class="circle4"></div>'
+    html+='</div>'
+    html+=' <div class="spinner-container container2">'
+    html+=' <div class="circle1"></div>'
+    html+='<div class="circle2"></div>'
+    html+='<div class="circle3"></div>'
+    html+=' <div class="circle4"></div>'
+    html+='</div>'
+
+    html+='<div class="spinner-container container3">'
+    html+=' <div class="circle1"></div>'
+    html+='<div class="circle2"></div>'
+    html+='<div class="circle3"></div>'
+    html+=' <div class="circle4"></div>'
+    html+='</div>'
+    html+='</div>'
+    html+='<div style="padding-left:10px;font-size:16px;color:#FFF; ">数据加载中...</div>';
+    html+='</div>';
+    html+='</div>';
+    node.innerHTML=html;
+    var body=document.querySelector('body');
+    body.appendChild(node);
+//		        $("#backdrop").trigger('create');
+
+}
+//开启遮罩层函数体
+
+function showMask(){
+    var backdrop=document.getElementById('backdrop');
+    backdrop.style.display='block';
+}
+
+
+
+//关闭遮罩层函数体
+function closeMask(){
+    var backdrop=document.getElementById('backdrop');
+    backdrop.style.display='none';
+}
+
+
+
+//页面初始化完成，关闭遮罩
+document.onreadystatechange = function(){
+    if(document.readyState == "complete"){
+        closeMask();
+    }
+}
 $(document).ready(function () {
     init();
 });
@@ -9,6 +70,7 @@ $(document).ready(function () {
 function init() {
     setMonth();
     getSalary();
+    showMask();
 }
 $("#selectByMonth").click(function () {
     getSalary();
@@ -31,7 +93,10 @@ function getSalary() {
     var month = $("#jxMonth").val()
     $("#monthNow").html(month);
     $.ajax({
-        url: "/admin/",     //后台请求的数据
+        beforeSend: function () {
+            showMask();
+        },
+        url: "/admin/getAllSalaryByMonth",     //后台请求的数据
         data: {
             "pageSize": pageSize,
             "pageNum": salary_pageNum,
@@ -41,53 +106,48 @@ function getSalary() {
         type: "post",                  //请求方式
         async: true,                   //是否异步请求
         success: function (data) {      //如果请求成功，返回数据。
-            $("#table_jx tbody").html("");
+            $("#table_salary tbody").html("");
             salary_pages = data.pages;
             var list_ = data.list;
             for (var i = 1; i < list_.length+1; i++) {
-                var jxDto = list_[i - 1];
-                var checks=jxDto.checkInfos;
-                var trCount="<tr style='background-color: rgba(238, 211, 210,0.3)'><td>"+"姓名:"+jxDto.userName+"&nbsp;&nbsp;&nbsp;&nbsp;"+"部门:"+jxDto.departmentName+"</td>"+
-                    "<td>缺勤次数:<span style='color: red'>"+jxDto.queqinNum+"</span>&nbsp;&nbsp;&nbsp;加班次数:<span style='color:blue'>"+jxDto.overWorkNum+"</span></td>"+"<td>请假次数<span style='color:green'>"+
-                    jxDto.leaveNum+"</span>&nbsp;&nbsp;&nbsp;迟到次数:<span style='color: orange'>"+jxDto.lateNum+"</span>"+"</td>"+"<td>早退次数:<span style='color: orange'>"+jxDto.beforeNum+"</span></td>"+"<td>"+"当前月:"+jxDto.month+"</span></td></tr>"
-                $("#table_jx tbody").append(trCount);
-                for(var j = 1;j<checks.length+1;j++){
-                    var signInStatus ="----";
-                    var signOutStatus="----";
-                    if(checks[j-1].signInStatus==0){
-                        signInStatus="<span style='color: red'>缺勤</span>";
-                    }else if(checks[j-1].signInStatus==2){
-                        signInStatus="<span style='color: darkorange'>迟到</span>";
-                    }else if(checks[j-1].signInStatus==3){
-                        signInStatus="<span style='color: darkgreen'>请假</span>";
-                    }
-                    if(checks[j-1].signOutStatus==0){
-                        signOutStatus="<span style='color: red'>缺勤</span>";
-                    }else if(checks[j-1].signOutStatus==2){
-                        signOutStatus="<span style='color: darkorange'>早退</span>";
-                    }else if(checks[j-1].signOutStatus==3){
-                        signOutStatus="<span style='color: darkgreen'>请假</span>";
-                    }
-                    var trHTML = "<tr>"
-                        + "<td>" + checks[j-1].signDate + "</td>"
-                        +"<td>" + checks[j-1].signInTime + "</td>"
-                        +"<td>" + signInStatus+ "</td>"
-                        +"<td>" + checks[j-1].signOutTime + "</td>"
-                        +"<td>" + signOutStatus + "</td>"
-                        +"</tr>";
-                    $("#table_jx tbody").append(trHTML);//在table最后面添加一行
+                var content = list_[i - 1];
+                var totalPay = "<span style='color: red'>暂无数据</span>";
+                var lateCutDay="<span style='color: red'>暂无数据</span>";
+                var overTimePay="<span style='color: red'>暂无数据</span>";
+                var finalPay="<span style='color: red'>暂无数据</span>";
+                if(content.totalPay!=null){
+                    totalPay=content.totalPay;
                 }
+                if(content.lateCutDay!=null){
+                    lateCutDay=content.lateCutDay;
+                }
+                if(content.overTimePay!=null){
+                    overTimePay=content.overTimePay;
+                }
+                if(content.finalPay!=null){
+                    finalPay=content.finalPay;
+                }
+                var trHTML = "<tr>"
+                    + "<td>" + content.userId + "</td>"
+                    + "<td>" + content.userName + "</td>"
+                    +"<td>" + content.departmentName + "</td>"
+                    + "<td>" + totalPay+ "</td>"
+                    +"<td>" + lateCutDay + "</td>"
+                    +"<td>" + overTimePay +"</td>"
+                    +"<td>" + finalPay + "</td>"
+                    +"</tr>";
+                $("#table_salary tbody").append(trHTML);//在table最后面添加一行
             }
-
-
+        },
+        complete:function () {
+            closeMask();
         }
-
     });
 }
 /**
  * 我的请假表翻页
  */
-$(".jx").click(function () {
+$(".salary").click(function () {
     var data = $(this).html();
     switch (data) {
         case "首页":
@@ -95,28 +155,28 @@ $(".jx").click(function () {
                 break;
             }
             salary_pageNum = 1;
-            getJxMsg();
+            getSalary();
             break;
         case "上一页":
             if (salary_pageNum == 1) {
                 break;
             }
             salary_pageNum--;
-            getJxMsg();
+            getSalary();
             break;
         case "下一页":
             if (salary_pageNum == salary_pages) {
                 break;
             }
             salary_pageNum++;
-            getJxMsg();
+            getSalary();
             break;
         case "尾页":
             if (salary_pageNum == salary_pages) {
                 break;
             }
             salary_pageNum = salary_pages;
-            getJxMsg();
+            getSalary();
             break;
     }
 });

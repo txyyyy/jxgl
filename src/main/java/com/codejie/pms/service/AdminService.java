@@ -3,6 +3,7 @@ package com.codejie.pms.service;
 import com.codejie.pms.entity.*;
 import com.codejie.pms.entity.dto.JXDto;
 import com.codejie.pms.entity.dto.NameValueDto;
+import com.codejie.pms.entity.dto.SalaryDto;
 
 import java.util.List;
 import java.util.Map;
@@ -131,4 +132,9 @@ public interface AdminService {
      * 查看所有考勤统计
      */
     List<JXDto> getAllCheckCountInfo(String month,int pageNum,int pageSize);
+
+    /**
+     * 根据月份查看工资信息
+     */
+    List<SalaryDto> checkAllSalaryInfosByMonth(String month,int pageNum,int pageSize);
 }

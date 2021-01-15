@@ -143,4 +143,9 @@ public interface AdminMapper {
      * 根据月份查看用户的考勤信息
      */
     List<CheckInfo> selectCheckByMonth(@Param("month")String month, @Param("userId")String userId,@Param("thisDay")String thisDay);
+
+    /**
+     * 根据月份查看用户的工资列表
+     */
+    Salary selectUserSalaryByMonth(@Param("salaryMonth")String salaryMonth,@Param("userId")String userId);
 }

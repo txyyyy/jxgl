@@ -3,6 +3,7 @@ package com.codejie.pms.controller;
 import com.codejie.pms.entity.*;
 import com.codejie.pms.entity.dto.JXDto;
 import com.codejie.pms.entity.dto.NameValueDto;
+import com.codejie.pms.entity.dto.SalaryDto;
 import com.codejie.pms.service.AdminService;
 import com.codejie.pms.service.HrService;
 import com.codejie.pms.service.UserService;
@@ -882,8 +883,9 @@ public class AdminController {
     }
     @RequestMapping("getAllSalaryByMonth")
     @ResponseBody
-    public PageInfo<JXDto> getAllSalaryByMonth(String month, @RequestParam(defaultValue = "1") int pageNum, @RequestParam(defaultValue = "10") int pageSize) {
-
-        return null;
+    public PageInfo<SalaryDto> getAllSalaryByMonth(String month, @RequestParam(defaultValue = "1") int pageNum, @RequestParam(defaultValue = "10") int pageSize) {
+        List<SalaryDto> list = adminService.checkAllSalaryInfosByMonth(month,pageNum,pageSize);
+        PageInfo<SalaryDto> pageInfo = new PageInfo<>(list);
+        return pageInfo;
     }
 }
