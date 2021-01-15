@@ -64,14 +64,15 @@
 
 </div>
 
-    <div class="row mt-4">
-        <div class="col-md-4">
-            <div class="myLeaveMsg" style="height: 40px">
-                <span style="padding-right: 60px;font-size: 22px;font-weight: bold">员工绩效信息列表</span>   选择查询月份<input id="jxMonth" type="month"><br>
+    <div class="row mt-4" style="width: auto">
+        <div class="col-md-4" style="width: auto">
+            <div class="myLeaveMsg" style="height: 40px;position:fixed; width:100%;font-weight: bold">
+                <span style="padding-right: 60px;font-size: 22px;">员工绩效信息列表</span> 选择查询月份：<input id="jxMonth" type="month"><button class="btn btn-rounded btn-primary" id="selectByMonth" style="margin-left: 50px">查询</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+当前查看月份:<span id="monthNow">---- - --</span><br>
             </div>
         </div>
     </div>
-    <div class="card-body">
+    <div class="card-body" style="margin-top: 30px">
         <div class="table-responsive">
             <table class="table table-hover" id="table_jx">
                 <thead>

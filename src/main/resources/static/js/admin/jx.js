@@ -7,18 +7,34 @@ $(document).ready(function () {
  * 初始化函数
  */
 function init() {
-
+    setMonth();
     getJxMsg();
 }
-
+$("#selectByMonth").click(function () {
+    alert("aaa");
+})
+function setMonth() {
+    var month=new Date();
+    var result="";
+    var date = month.toLocaleDateString();
+    var last=date.lastIndexOf("/");
+    var before=date.indexOf("/");
+    if(last-before==2){
+        result= date.substring(0,before)+"-0"+date.substring(5,6);
+    }else {
+        result=date.substring(0,before)+"-"+date.substring(5,7);
+    }
+   $("#jxMonth").val(result);
+}
 function getJxMsg() {
     var month = $("#jxMonth").val()
+    $("#monthNow").html(month);
     $.ajax({
         url: "/admin/getAllCheckCountInfo",     //后台请求的数据
         data: {
             "pageSize": pageSize,
             "pageNum": jx_pageNum,
-            "month": "2021-01"
+            "month": month
 
         },
         type: "post",                  //请求方式
