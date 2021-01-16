@@ -96,8 +96,12 @@ function checkMonthSalary(){
             if(data){
                 $("#createSalary").css("cursor","default");
                 $("#createSalary").css({'background-color':'darkgrey','color':'grey'});
+                $("#createSalary").html("本月工资已生成");
+                $("#updateSalary").css("display","inline-block");
+
             }else {
                 $("#createSalary").html("点击生成本月工资");
+                $("#updateSalary").css("display","none");
             }
         }
 
@@ -125,6 +129,7 @@ $("#createSalary").click(function () {
             async: true,                   //是否异步请求
             success: function (data) {      //如果请求成功，返回数据。
                 alert("工资生成成功!");
+                checkMonthSalary();
                 getSalary();
             },
             error:function () {
@@ -159,6 +164,36 @@ $("#submitSalaryRule").click(function () {
         }
 
     });
+
+})
+$("#updateSalary").click(function () {
+    var month=new Date();
+    var result="";
+    var date = month.toLocaleDateString();
+    var last=date.lastIndexOf("/");
+    var before=date.indexOf("/");
+    if(last-before==2){
+        result= date.substring(0,before)+"-0"+date.substring(5,6);
+    }else {
+        result=date.substring(0,before)+"-"+date.substring(5,7);
+    }
+        $.ajax({
+            url: "/admin/updateSalary",     //后台请求的数据
+            data: {
+                "salaryMonth": result
+            },
+            type: "post",                  //请求方式
+            async: true,                   //是否异步请求
+            success: function (data) {      //如果请求成功，返回数据。
+                alert("工资更新成功!");
+                checkMonthSalary();
+                getSalary();
+            },
+            error:function () {
+                alert("工资更新失败！");
+            }
+
+        });
 
 })
 $("#selectByMonth").click(function () {
@@ -234,8 +269,8 @@ function getSalary() {
                     + "<td>" + content.userName + "</td>"
                     +"<td>" + content.departmentName + "</td>"
                     + "<td>" + totalPay+ "</td>"
-                    +"<td>" + lateCutPay + "</td>"
-                    +"<td>" + overTimePay +"</td>"
+                    +"<td>" +"-"+lateCutPay + "</td>"
+                    +"<td>" +"+"+overTimePay +"</td>"
                     +"<td>" + finalPay + "</td>"
                     +"</tr>";
                 $("#table_salary tbody").append(trHTML);//在table最后面添加一行

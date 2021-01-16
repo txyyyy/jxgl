@@ -314,6 +314,9 @@
     <update id="updateSalaryRule">
         update salaryrule set latePay=#{latePay},overTimePay=#{overTimePay} where id =1
     </update>
+    <update id="updateSalary">
+        update salary set totalPay=#{totalPay},finalPay=#{finalPay},lateCutPay=#{lateCutPay},overTimePay=#{overTimePay},lateCount=#{lateCount},overTimeCount=#{overTimeCount} where userId=#{userId} and salaryMonth=#{salaryMonth}
+    </update>
     <select id="countOverWorkByMonth" resultType="integer">
         select count(overworkId) from overwork where status=1 and workDay LIKE CONCAT('%',#{month},'%') and userId =#{userId}
     </select>
@@ -331,6 +334,9 @@
     </select>
     <select id="selectOverWorkOnMonth" resultType="com.codejie.pms.entity.OverWork">
         select * from overwork where userId=#{userId} and workDay LIKE CONCAT('%',#{month},'%') and status=1
+    </select>
+    <select id="selectByMonthAndUserId" resultType="com.codejie.pms.entity.Salary">
+        select * from salary where userId=#{userId} and salaryMonth=#{month}
     </select>
 
 </mapper>

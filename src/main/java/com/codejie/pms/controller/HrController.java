@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -105,7 +106,7 @@ public class HrController {
     public String haveId(String userId, String userName,
                          String phone, String departmentId,
                          String email, String hometown,
-                         String gender, String permissionDegree) {
+                         String gender, String permissionDegree, BigDecimal salary) {
         User user = new User();
         user.setUserId(userId);
         user.setUserName(userName);
@@ -115,6 +116,7 @@ public class HrController {
         user.setHometown(hometown);
         user.setGender(gender);
         user.setPermissionDegree(Long.parseLong(permissionDegree));
+        user.setSalary(salary);
         String haveId = hrService.haveId(userId);
         if ("true".equals(haveId)) {
             return "false";

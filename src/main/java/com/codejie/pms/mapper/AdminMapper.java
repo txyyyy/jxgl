@@ -165,4 +165,13 @@ public interface AdminMapper {
 
     List<OverWork> selectOverWorkOnMonth(@Param("userId")String userId,@Param("month")String month);
 
+    /**
+     * 根据月份和userId查看是否有本月员工的工资单
+     */
+    Salary selectByMonthAndUserId(@Param("userId")String userId,@Param("month")String month);
+    /**
+     *根据userId和月份修改工资单
+     */
+    int updateSalary(Salary salary);
+
 }

@@ -60,8 +60,8 @@
 
     <insert id="addUser" parameterType="com.codejie.pms.entity.User">
         insert into
-        user(userId,userName, pwd, permissionDegree, departmentId, kpiSum, hometown, phone, email, gender)
-        values(#{userId},#{userName},123456,#{permissionDegree},#{departmentId},100,#{hometown},#{phone},#{email},#{gender})
+        user(userId,userName, pwd, permissionDegree, departmentId, kpiSum, hometown, phone, email, gender,salary)
+        values(#{userId},#{userName},123456,#{permissionDegree},#{departmentId},100,#{hometown},#{phone},#{email},#{gender},#{salary})
     </insert>
 
     <insert id="save" parameterType="com.codejie.pms.entity.User">

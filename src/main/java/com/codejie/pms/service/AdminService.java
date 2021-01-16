@@ -156,4 +156,8 @@ public interface AdminService {
      * 生成本月工资
      */
     int insertSalaryByMonth(String month);
+    /**
+     * 更新本月工资
+     */
+    int updateSalary(String month);
 }

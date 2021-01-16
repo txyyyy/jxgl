@@ -1,6 +1,8 @@
 package com.codejie.pms.entity;
 
 
+import java.math.BigDecimal;
+
 public class User {
 
   private String userId;
@@ -13,6 +15,7 @@ public class User {
   private String email;
   private String hometown;
   private String gender;
+  private BigDecimal salary;
 
 
   public String getUserId() {
@@ -104,4 +107,11 @@ public class User {
     this.gender = gender;
   }
 
+  public BigDecimal getSalary() {
+    return salary;
+  }
+
+  public void setSalary(BigDecimal salary) {
+    this.salary = salary;
+  }
 }

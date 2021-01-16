@@ -912,4 +912,9 @@ public class AdminController {
     public int createSalary(String salaryMonth) {
         return adminService.insertSalaryByMonth(salaryMonth);
     }
+    @RequestMapping("updateSalary")
+    @ResponseBody
+    public int updateSalary(String salaryMonth) {
+        return adminService.updateSalary(salaryMonth);
+    }
 }
